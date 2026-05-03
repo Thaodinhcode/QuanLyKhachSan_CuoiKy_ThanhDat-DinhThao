@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Layout, ConfigProvider, Typography, App as AntApp } from 'antd';
+import { Layout, ConfigProvider, App as AntApp } from 'antd';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Rooms from './pages/Rooms';
@@ -30,7 +30,7 @@ function AppContent() {
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
         <Navbar />
-        <Content>
+        <Content style={{ backgroundColor: '#000000' }}> {/* Đặt nền Content màu tối */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/rooms" element={<Rooms />} />
@@ -51,20 +51,39 @@ export default function App() {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#eb2f96',
-          borderRadius: 4,
+          // Màu tím chủ đạo theo phong cách Stellar Luxury
+          colorPrimary: '#a347ff', 
+          colorInfo: '#a347ff',
+          borderRadius: 8,
           fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          
+          // Chuyển sang Dark Mode nhẹ cho các thành phần hệ thống
+          colorBgBase: '#0a0a0a',
+          colorTextBase: '#ffffff',
         },
         components: {
           Layout: {
-            headerBg: '#ffffff',
-            bodyBg: '#ffffff',
+            headerBg: 'rgba(0, 0, 0, 0.85)', // Header tối và hơi trong suốt
+            bodyBg: '#000000',
+            footerBg: '#0a0a0a',
+          },
+          Button: {
+            colorPrimary: 'linear-gradient(90deg, #7e22ce 0%, #a855f7 100%)', // Nút bấm Gradient tím
+            algorithm: true, // Bật tính năng nhận diện gradient
+            controlHeight: 40,
+            fontWeight: 600,
           },
           Table: {
-            headerBg: '#fafafa',
-            headerColor: 'rgba(0, 0, 0, 0.45)',
-            headerBorderRadius: 0,
+            headerBg: '#1f1f1f',
+            headerColor: '#ffffff',
+            headerBorderRadius: 4,
+            colorBgContainer: '#141414',
+            colorText: '#e5e5e5',
           },
+          Menu: {
+            darkItemBg: 'transparent',
+            darkItemSelectedBg: '#a347ff',
+          }
         },
       }}
     >
