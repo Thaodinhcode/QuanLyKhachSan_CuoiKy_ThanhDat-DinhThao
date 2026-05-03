@@ -92,3 +92,14 @@ const Navbar = () => {
           </Text>
         </Link>
       </div>
+
+      {/* Center: Desktop Menu */}
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', minWidth: 0 }}>
+        <Menu
+          mode="horizontal"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          style={{ border: 'none', width: '100%', justifyContent: 'center' }}
+          className="hidden lg:flex"
+        />
+      </div>

@@ -38,3 +38,9 @@ const AboutUs = () => {
             <Title level={2} style={{ fontSize: 40, margin: '0 0 16px 0' }}>
               Trải nghiệm kỳ nghỉ dưỡng đẳng cấp quốc tế
             </Title>
+            <Paragraph style={{ fontSize: 16, color: '#666', lineHeight: 1.8 }}>
+              Tận hưởng thiên đường nghỉ dưỡng tại khách sạn – nơi vẻ đẹp của biển cả hòa quyện cùng sự sang trọng hiện đại. Chúng tôi không chỉ trao bạn một phòng nghỉ, mà gửi tặng một trải nghiệm sống đỉnh cao.
+            </Paragraph>
+            <Space orientation="vertical" size={12} style={{ marginBottom: 24 }}>
+              <Space><Check size={18} color="#eb2f96" /><Text>Hơn 25 cơ sở trên toàn quốc</Text></Space>
+              <Space><Check size={18} color="#eb2f96" /><Text>Dịch vụ chăm sóc khách hàng 24/7</Text></Space>

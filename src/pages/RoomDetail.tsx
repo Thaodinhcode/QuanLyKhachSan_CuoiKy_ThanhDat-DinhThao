@@ -4,6 +4,9 @@ import { Layout, Typography, Tag, Button, Row, Col, Card, Spin, Space, Divider, 
 import { Room, Booking, Review } from '../types';
 import { ChevronLeft, Wifi, Coffee, Tv, CheckCircle, UploadCloud, CreditCard, ShieldCheck, User, Star } from 'lucide-react';
 import { RoomService, BookingService } from '../services/api';
+import { bookingService } from '../services/bookingService';
+import { useUser } from '../context/UserContext';
+import dayjs from 'dayjs';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -112,3 +115,57 @@ const RoomDetail = () => {
       message.error('Admin không thể thực hiện đặt phòng. Vui lòng sử dụng tài khoản User.');
       return;
     }
+
+    const [start, end] = values.dates;
+    const checkInStr = start.format('YYYY-MM-DD');
+    const checkOutStr = end.format('YYYY-MM-DD');
+
+    // 1. Conflict Check (Chỉ check với các đơn đã Confirmed)
+    const isAvailable = bookingService.isRoomAvailable(room!.id, checkInStr, checkOutStr, bookings);
+    if (!isAvailable) {
+      message.error('Phòng đã có khách đặt trong khoảng thời gian này. Vui lòng chọn lịch khác!');
+      return;
+    }
+
+    modal.confirm({
+      title: 'Xác nhận đặt phòng',
+      content: (
+        <div>
+          <p>Phòng: <strong>{room?.name}</strong></p>
+          <p>Thời gian: {checkInStr} → {checkOutStr}</p>
+          <p>Số khách: {values.guests}</p>
+          <p>Số CCCD: {values.idCard}</p>
+          <p style={{ fontSize: 18, color: '#1677ff', fontWeight: 'bold', marginTop: 16 }}>
+            Tổng thanh toán: ${totalPrice}
+          </p>
+          <Text type="secondary" style={{ fontSize: 12 }}>* Đơn hàng sẽ ở trạng thái Chờ duyệt (Pending)</Text>
+        </div>
+      ),
+      onOk: async () => {
+        const bid = `B${dayjs().valueOf()}${Math.floor(Math.random() * 9000) + 1000}`;
+        const newBooking: Booking = {
+          id: bid,
+          roomId: room!.id,
+          userId: currentUser!.id,
+          guestName: currentUser!.name,
+          guestIdCard: values.idCard,
+          checkIn: checkInStr,
+          checkOut: checkOutStr,
+          guests: values.guests,
+          totalPrice: totalPrice,
+          status: 'Pending',
+          paymentMethod: values.paymentMethod,
+          paymentStatus: 'Pending',
+          createdAt: dayjs().toISOString()
+        };
+        
+        try {
+          await BookingService.createBooking(newBooking);
+          message.success('Gửi yêu cầu đặt phòng thành công!');
+          navigate('/my-bookings');
+        } catch (e) {
+          message.error('Lỗi khi gửi yêu cầu đặt phòng');
+        }
+      },
+    });
+  };

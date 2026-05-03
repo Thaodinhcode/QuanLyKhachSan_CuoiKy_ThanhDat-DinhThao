@@ -94,3 +94,18 @@ const Home = () => {
               desc: 'Trải nghiệm cảm giác thư giãn tuyệt đối giữa làn nước trong xanh và tầm nhìn ôm trọn đại dương.', 
               icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Users size={32} color="#eb2f96" /></div> 
               },
+              { 
+                title: 'Ẩm thực thượng hạng', 
+                desc: 'Hành trình vị giác đa dạng với các món ăn Á-Âu được chế biến từ những nguyên liệu tươi ngon nhất.', 
+                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Star size={32} color="#eb2f96" /></div> 
+              },
+              { 
+                title: 'Spa & Trị liệu', 
+                desc: 'Đánh thức mọi giác quan và phục hồi năng lượng với các liệu trình chăm sóc sức khỏe chuyên sâu.', 
+                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><ShieldCheck size={32} color="#eb2f96" /></div> 
+              },
+              { 
+                title: 'Dịch vụ đưa đón', 
+                desc: 'Khởi đầu kỳ nghỉ thuận tiện với dịch vụ xe sang đưa đón tận nơi, đảm bảo sự riêng tư và an toàn.', 
+                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Building size={32} color="#eb2f96" /></div> 
+              },

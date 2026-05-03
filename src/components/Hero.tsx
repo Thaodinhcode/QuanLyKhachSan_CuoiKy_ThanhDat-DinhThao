@@ -48,3 +48,16 @@ const Hero = () => {
         padding: '0 24px',
         zIndex: 1
       }}>
+        <div style={{ maxWidth: 800 }}>
+          <Space orientation="vertical" size={16} style={{ marginBottom: 32 }}>
+            <Text style={{ color: 'white', letterSpacing: 4, textTransform: 'uppercase', fontWeight: 600, display: 'block' }}>
+              Chào mừng bạn đến với stellarhotel
+            </Text>
+            <Title style={{ color: 'white', fontSize: 'clamp(36px, 5vw, 64px)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+              Chạm vào bình yên <br/> tận hưởng kỳ nghỉ trọn vẹn 
+            </Title>
+            <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: 18, maxWidth: 500, display: 'block' }}>
+              Tận hưởng dịch vụ đẳng cấp 5 sao và không gian hiện đại tại khách sạn ở Việt Nam.
+            </Text>
+          </Space>
+        </div>

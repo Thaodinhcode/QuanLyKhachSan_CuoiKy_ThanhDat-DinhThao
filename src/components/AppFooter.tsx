@@ -47,3 +47,15 @@ const AppFooter = () => {
               </Link>
             </Space>
           </Col>
+
+          {/* Cột 2: Liên kết nhanh - Chỉnh lg={6} để đều với các cột khác */}
+          <Col xs={12} md={12} lg={6}>
+            <Title level={5} style={{ color: 'white', marginBottom: 20 }}>LIÊN KẾT NHANH</Title>
+            <Space direction="vertical" size={20}>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Tìm kiếm điểm đến</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Ưu đãi & Gói đặc biệt</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Loại phòng & Tiện nghi</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Đánh giá từ khách hàng</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Mẹo & Hướng dẫn du lịch</Text>
+            </Space>
+          </Col>

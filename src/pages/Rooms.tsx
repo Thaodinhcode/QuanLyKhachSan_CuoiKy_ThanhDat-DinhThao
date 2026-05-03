@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Typography, Row, Col, Spin, Empty, Button, Tabs, Card, Select, Pagination } from 'antd';
 import { RoomService } from '../services/api';
+import { Room } from '../types';
+import RoomCard from '../components/RoomCard';
+import { Search, Filter } from 'lucide-react';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -47,3 +50,29 @@ const Rooms = () => {
 
   const startIndex = (currentPage - 1) * pageSize;
   const currentRooms = rooms.slice(startIndex, startIndex + pageSize);
+
+  return (
+    <Content style={{ maxWidth: '1200px', margin: '0 auto' }} className="py-8 px-4 sm:py-12 sm:px-6">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', flexWrap: 'wrap', gap: '24px' }}>
+        <div>
+          <Title className="text-2xl sm:text-3xl md:text-4xl" style={{ margin: '0 0 8px 0' }}>Tất cả các phòng</Title>
+          <Text type="secondary" className="text-sm sm:text-base">Tìm kiếm phòng phù hợp với nhu cầu của bạn</Text>
+        </div>
+        
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', background: '#f5f5f5', padding: '8px 16px', borderRadius: '8px' }}>
+          <Text strong style={{ whiteSpace: 'nowrap' }}>Lọc theo:</Text>
+          <Select 
+            defaultValue="All" 
+            style={{ width: 140 }} 
+            variant="borderless"
+            onChange={setFilter}
+            options={[
+              { value: 'All', label: 'Tất cả' },
+              { value: 'Single', label: 'Phòng đơn' },
+              { value: 'Double', label: 'Phòng đôi' },
+              { value: 'Suite', label: 'Phòng Suite' },
+              { value: 'Deluxe', label: 'Phòng Deluxe' },
+            ]}
+          />
+        </div>
+      </div>

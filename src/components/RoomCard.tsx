@@ -56,3 +56,16 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
               <Star size={12} color="#fadb14" fill="#fadb14" />
               <Text strong style={{ fontSize: 12 }}>{avgRating}</Text>
             </Space>
+          )}
+        </Space>
+        <Tag 
+          color={statusColors[room.status]} 
+          style={{ 
+            borderRadius: '2px', 
+            margin: 0, 
+            fontSize: '10px', 
+            fontWeight: 700, 
+            textTransform: 'uppercase',
+            border: `1px solid ${room.status === 'Available' ? '#b7eb8f' : room.status === 'Occupied' ? '#ffa39e' : '#ffe58f'}`
+          }}
+        >
