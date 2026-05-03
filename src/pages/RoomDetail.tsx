@@ -1,8 +1,74 @@
-export default function RoomDetail() {
-  return (
-    <section>
-      <h1>Room Detail</h1>
-      <p>Đây là trang hiển thị chi tiết phòng.</p>
-    </section>
-  );
-}
+import React, { useState, useEffect, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Layout, Typography, Tag, Button, Row, Col, Card, Spin, Space, Divider, Modal, DatePicker, InputNumber, Form, Input, Upload, Select, App, Rate, Avatar, Pagination } from 'antd';
+import { Room, Booking, Review } from '../types';
+import { ChevronLeft, Wifi, Coffee, Tv, CheckCircle, UploadCloud, CreditCard, ShieldCheck, User, Star } from 'lucide-react';
+
+const { Content } = Layout;
+const { Title, Text, Paragraph } = Typography;
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
+const AntCard = Card as any;
+
+const RoomDetail = () => {
+  const { message, modal } = App.useApp();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user: currentUser } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [room, setRoom] = useState<Room | null>(null);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [form] = Form.useForm();
+  const [reviewForm] = Form.useForm();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+
+  const canReview = useMemo(() => {
+    if (!currentUser || !room) return false;
+    // Check if user has completed a stay at this room
+    return bookings.some(b => 
+      b.userId === currentUser.id && 
+      b.roomId === room.id && 
+      b.status === 'Checked-out'
+    );
+  }, [currentUser, room, bookings]);
+  
+  const [checkIn, setCheckIn] = useState<string>('');
+  const [checkOut, setCheckOut] = useState<string>('');
+
+  const fetchData = async () => {
+    if (!id) return;
+    try {
+      const [foundRoom, allBookings] = await Promise.all([
+        RoomService.getRoomById(id),
+        BookingService.getBookings()
+      ]);
+      if (foundRoom) setRoom({ ...foundRoom });
+      setBookings(allBookings);
+    } catch (e) {
+      console.error("Error fetching room details", e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 3000);
+    return () => clearInterval(interval);
+  }, [id]);
+
+  const handleAddReview = async (values: any) => {
+    if (!currentUser) {
+      message.error('Vui lòng đăng nhập để gửi đánh giá');
+      return;
+    }
+
+    const newReview: Review = {
+      id: `rv${Date.now()}`,
+      userId: currentUser.id,
+      userName: currentUser.name,
+      rating: values.rating,
+      comment: values.comment,
+      date: dayjs().format('YYYY-MM-DD')
+    };
