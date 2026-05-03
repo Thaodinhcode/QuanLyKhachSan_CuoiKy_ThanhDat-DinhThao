@@ -86,6 +86,7 @@ export const UserService = {
   },
   login: async (email: string, password?: string): Promise<User | null> => {
     const users = await UserService.getUsers();
+    // In this mock, we accept any password as long as the email matches
     return users.find(u => u.email === email) || null;
   },
   deleteUser: async (id: string): Promise<void> => {
