@@ -29,3 +29,12 @@ const AboutUs = () => {
               zIndex: -1
             }} />
           </div>
+        </Col>
+        <Col xs={24} lg={12}>
+          <Space orientation="vertical" size={16}>
+            <Text style={{ color: '#eb2f96', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 2 }}>
+              Về chúng tôi
+            </Text>
+            <Title level={2} style={{ fontSize: 40, margin: '0 0 16px 0' }}>
+              Trải nghiệm kỳ nghỉ dưỡng đẳng cấp quốc tế
+            </Title>

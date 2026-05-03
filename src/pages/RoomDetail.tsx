@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Layout, Typography, Tag, Button, Row, Col, Card, Spin, Space, Divider, Modal, DatePicker, InputNumber, Form, Input, Upload, Select, App, Rate, Avatar, Pagination } from 'antd';
 import { Room, Booking, Review } from '../types';
 import { ChevronLeft, Wifi, Coffee, Tv, CheckCircle, UploadCloud, CreditCard, ShieldCheck, User, Star } from 'lucide-react';
+import { RoomService, BookingService } from '../services/api';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -72,3 +73,42 @@ const RoomDetail = () => {
       comment: values.comment,
       date: dayjs().format('YYYY-MM-DD')
     };
+
+    if (room) {
+      const updatedRoom = { ...room, reviews: [newReview, ...room.reviews] };
+      await RoomService.updateRoom(updatedRoom);
+      setRoom(updatedRoom);
+      message.success('Cảm ơn bạn đã đánh giá!');
+      reviewForm.resetFields();
+    }
+  };
+
+  const avgRating = useMemo(() => {
+    if (!room || !room.reviews || !room.reviews.length) return 0;
+    const sum = room.reviews.reduce((acc, curr) => acc + curr.rating, 0);
+    return (sum / room.reviews.length).toFixed(1);
+  }, [room]);
+
+  const totalPrice = useMemo(() => {
+    if (!room || !checkIn || !checkOut) return 0;
+    return bookingService.calculateTotalPrice(room.price, checkIn, checkOut);
+  }, [room, checkIn, checkOut]);
+
+  const handleBooking = (values: any) => {
+    if (!currentUser) {
+      modal.confirm({
+        title: 'Bạn chưa đăng nhập',
+        content: 'Vui lòng đăng nhập hoặc đăng ký tài khoản để thực hiện đặt phòng.',
+        okText: 'Đăng nhập ngay',
+        cancelText: 'Quay lại',
+        onOk() {
+          navigate('/auth');
+        },
+      });
+      return;
+    }
+
+    if (currentUser.role === 'Admin') {
+      message.error('Admin không thể thực hiện đặt phòng. Vui lòng sử dụng tài khoản User.');
+      return;
+    }

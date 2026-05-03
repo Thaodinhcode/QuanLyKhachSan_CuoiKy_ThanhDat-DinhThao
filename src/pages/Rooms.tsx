@@ -28,3 +28,22 @@ const Rooms = () => {
         setLoading(false);
       }
     };
+
+    fetchData();
+    const interval = setInterval(fetchData, 3000);
+    return () => clearInterval(interval);
+  }, [filter]);
+
+  // Handle page change
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Reset page when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const currentRooms = rooms.slice(startIndex, startIndex + pageSize);

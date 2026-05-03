@@ -25,3 +25,25 @@ const AppFooter = () => {
                   />
                 </a>
               </div>
+              
+              <Text style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.7 }}>
+                Khám phá thế giới của sự tiện nghi, sang trọng và phiêu lưu khi bạn tìm hiểu bộ sưu tập khách sạn được chọn lọc của chúng tôi.
+              </Text>
+
+              <Link to="/rooms">
+                <Button 
+                  type="primary" 
+                  size="large"
+                  style={{ 
+                    background: '#eb2f96', 
+                    borderColor: '#eb2f96', 
+                    borderRadius: 6,
+                    height: 48,
+                    fontWeight: 600
+                  }}
+                >
+                  Đặt phòng ngay
+                </Button>
+              </Link>
+            </Space>
+          </Col>

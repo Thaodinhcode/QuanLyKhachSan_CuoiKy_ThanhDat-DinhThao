@@ -60,3 +60,35 @@ const Navbar = () => {
       onClick: handleLogout
     },
   ];
+
+  return (
+    <Header style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'space-between',
+      padding: '0 20px',
+      background: '#fff',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      height: 64
+    }}>
+      {/* Left side: Logo */}
+      <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img 
+            src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/logo.png" 
+            alt="Stellar Hotel Logo"
+            style={{ width: 32, height: 32, marginRight: 8, objectFit: 'contain' }} 
+          />
+          <Text strong style={{ 
+            color: '#000', 
+            fontSize: 'clamp(14px, 4vw, 18px)', // Responsive font size
+            letterSpacing: -0.5,
+            whiteSpace: 'nowrap'
+          }}>
+            STELLARHOTEL
+          </Text>
+        </Link>
+      </div>

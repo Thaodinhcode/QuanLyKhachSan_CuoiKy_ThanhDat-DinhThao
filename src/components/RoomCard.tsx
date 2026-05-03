@@ -48,3 +48,11 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
       }}
       styles={{ body: { padding: '20px' } }}
     >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+        <Space size={8}>
+          <Text type="secondary" style={{ fontSize: '12px', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.05em' }}>{room.type}</Text>
+          {avgRating && (
+            <Space size={2}>
+              <Star size={12} color="#fadb14" fill="#fadb14" />
+              <Text strong style={{ fontSize: 12 }}>{avgRating}</Text>
+            </Space>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Row, Col, Button, Spin, Statistic, Card, Select } from 'antd';
 import { Link } from 'react-router-dom';
+import RoomCard from '../components/RoomCard';
+import Hero from '../components/Hero';
+import AboutUs from '../components/AboutUs';
+import { RoomService } from '../services/api';
+import { Room } from '../types';
+import { Users, Building, ShieldCheck, Star, Hotel } from 'lucide-react';
 
 const { Title, Text } = Typography;
 const AntCard = Card as any;
@@ -69,3 +75,22 @@ const Home = () => {
           </Row>
         </div>
       </div>
+
+      <AboutUs />
+
+      {/* Services Section */}
+      <section id="services" className="py-12 px-6 sm:py-20 sm:px-8" style={{ background: '#fff' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <Text style={{ color: '#eb2f96', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 2 }}>
+              Dịch vụ của chúng tôi
+            </Text>
+            <Title level={2} className="text-2xl sm:text-3xl md:text-4xl mt-2 mb-0">Trải nghiệm tiện ích 5 sao</Title>
+          </div>
+          <Row gutter={[24, 24]}>
+            {[
+              { 
+              title: 'Hồ bơi vô cực', 
+              desc: 'Trải nghiệm cảm giác thư giãn tuyệt đối giữa làn nước trong xanh và tầm nhìn ôm trọn đại dương.', 
+              icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Users size={32} color="#eb2f96" /></div> 
+              },

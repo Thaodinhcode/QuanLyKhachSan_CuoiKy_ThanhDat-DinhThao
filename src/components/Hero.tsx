@@ -35,3 +35,16 @@ const Hero = () => {
           background: 'linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5))',
         }} />
       </div>
+
+      {/* Hero Content */}
+      <div style={{ 
+        position: 'relative',
+        height: '100%',
+        maxWidth: 1200, 
+        margin: '0 auto',
+        display: 'flex', 
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '0 24px',
+        zIndex: 1
+      }}>
