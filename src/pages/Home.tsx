@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Row, Col, Button, Spin, Statistic, Card, Select } from 'antd';
+import { Typography, Row, Col, Button, Spin, Statistic, Card, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import RoomCard from '../components/RoomCard';
 import Hero from '../components/Hero';
 import AboutUs from '../components/AboutUs';
 import { RoomService } from '../services/api';
 import { Room } from '../types';
-import { Users, Building, ShieldCheck, Star, Hotel } from 'lucide-react';
+import { Users, Building, ShieldCheck, Star, Sparkles, Award } from 'lucide-react';
 
 const { Title, Text } = Typography;
 const AntCard = Card as any;
@@ -33,92 +33,147 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ background: '#0f172a' }}>
       <Hero />
-      
-      {/* Statistics Section */}
-      <div style={{ background: '#fff', padding: '64px 24px', borderBottom: '1px solid #f0f2f5' }}>
+
+      {/* Statistics Section - Cosmic */}
+      <section style={{ 
+        padding: '90px 24px', 
+        background: 'linear-gradient(180deg, #1e2937 0%, #0f172a 100%)',
+        position: 'relative'
+      }}>
+        <div className="absolute inset-0 bg-[radial-gradient(at_center,#6b21a8_0%,transparent_70%)] opacity-30" />
+        
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <Row gutter={[32, 48]} justify="center">
-            <Col xs={12} md={6}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>
-                  <Building size={28} color="#eb2f96" />
+            {[
+              { icon: <Building size={38} />, label: "Cơ sở toàn quốc", value: 25, suffix: "+" },
+              { icon: <Users size={38} />, label: "Khách hàng hài lòng", value: 600, suffix: "+" },
+              { icon: <Star size={38} />, label: "Đánh giá 5 sao", value: 1500, suffix: "+" },
+              { icon: <ShieldCheck size={38} />, label: "Chuyên gia phục vụ", value: 120, suffix: "+" },
+            ].map((stat, index) => (
+              <Col xs={12} md={6} key={index}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ 
+                    marginBottom: 20, 
+                    display: 'flex', 
+                    justifyContent: 'center',
+                    opacity: 0.9
+                  }}>
+                    <div style={{
+                      padding: '16px',
+                      background: 'rgba(139, 92, 246, 0.15)',
+                      borderRadius: '50%',
+                      border: '1px solid rgba(192, 132, 252, 0.3)'
+                    }}>
+                      {stat.icon}
+                    </div>
+                  </div>
+                  
+                  <Statistic 
+                    value={stat.value} 
+                    suffix={stat.suffix}
+                    styles={{ 
+                      content: { 
+                        fontSize: '42px', 
+                        fontWeight: 900, 
+                        color: '#e0bbff',
+                        lineHeight: 1 
+                      } 
+                    }} 
+                  />
+                  <Text style={{ 
+                    color: '#c4b5fd', 
+                    fontSize: '16px', 
+                    marginTop: 8,
+                    display: 'block'
+                  }}>
+                    {stat.label}
+                  </Text>
                 </div>
-                <Statistic title="Cơ sở toàn quốc" value={25} suffix="+" styles={{ content: { fontWeight: 800 } }} />
-              </div>
-            </Col>
-            <Col xs={12} md={6}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>
-                  <Users size={28} color="#eb2f96" />
-                </div>
-                <Statistic title="Khách hàng hài lòng" value={600} suffix="+" styles={{ content: { fontWeight: 800 } }} />
-              </div>
-            </Col>
-            <Col xs={12} md={6}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>
-                  <Star size={28} color="#eb2f96" />
-                </div>
-                <Statistic title="Đánh giá 5 sao" value={1500} suffix="+" styles={{ content: { fontWeight: 800 } }} />
-              </div>
-            </Col>
-            <Col xs={12} md={6}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, display: 'flex', justifyContent: 'center' }}>
-                  <ShieldCheck size={28} color="#eb2f96" />
-                </div>
-                <Statistic title="Chuyên gia phục vụ" value={120} suffix="+" styles={{ content: { fontWeight: 800 } }} />
-              </div>
-            </Col>
+              </Col>
+            ))}
           </Row>
         </div>
-      </div>
+      </section>
 
       <AboutUs />
 
-      {/* Services Section */}
-      <section id="services" className="py-12 px-6 sm:py-20 sm:px-8" style={{ background: '#fff' }}>
+      {/* Services Section - Cosmic */}
+      <section id="services" style={{ 
+        padding: '100px 24px', 
+        background: 'linear-gradient(180deg, #1e2937, #0f172a)' 
+      }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <Text style={{ color: '#eb2f96', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 2 }}>
-              Dịch vụ của chúng tôi
-            </Text>
-            <Title level={2} className="text-2xl sm:text-3xl md:text-4xl mt-2 mb-0">Trải nghiệm tiện ích 5 sao</Title>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Sparkles size={32} style={{ color: '#c084fc' }} />
+              <Text style={{ 
+                color: '#c4b5fd', 
+                fontWeight: 700, 
+                textTransform: 'uppercase', 
+                letterSpacing: '4px',
+                fontSize: '15px'
+              }}>
+                TIỆN ÍCH VŨ TRỤ
+              </Text>
+            </div>
+            <Title level={2} style={{ 
+              color: 'white', 
+              fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', 
+              margin: 0 
+            }}>
+              Trải nghiệm đẳng cấp 5 sao
+            </Title>
           </div>
-          <Row gutter={[24, 24]}>
+
+          <Row gutter={[28, 28]}>
             {[
               { 
-              title: 'Hồ bơi vô cực', 
-              desc: 'Trải nghiệm cảm giác thư giãn tuyệt đối giữa làn nước trong xanh và tầm nhìn ôm trọn đại dương.', 
-              icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Users size={32} color="#eb2f96" /></div> 
+                title: 'Hồ bơi vô cực', 
+                desc: 'Thư giãn giữa làn nước xanh ngọc và tầm nhìn ôm trọn bầu trời sao.', 
+                icon: <Users size={42} color="#c084fc" /> 
               },
               { 
                 title: 'Ẩm thực thượng hạng', 
-                desc: 'Hành trình vị giác đa dạng với các món ăn Á-Âu được chế biến từ những nguyên liệu tươi ngon nhất.', 
-                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Star size={32} color="#eb2f96" /></div> 
+                desc: 'Hành trình vị giác với ẩm thực Á - Âu được chế biến bởi đầu bếp quốc tế.', 
+                icon: <Star size={42} color="#c084fc" /> 
               },
               { 
                 title: 'Spa & Trị liệu', 
-                desc: 'Đánh thức mọi giác quan và phục hồi năng lượng với các liệu trình chăm sóc sức khỏe chuyên sâu.', 
-                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><ShieldCheck size={32} color="#eb2f96" /></div> 
+                desc: 'Phục hồi năng lượng với liệu trình cao cấp lấy cảm hứng từ thiên nhiên.', 
+                icon: <ShieldCheck size={42} color="#c084fc" /> 
               },
               { 
                 title: 'Dịch vụ đưa đón', 
-                desc: 'Khởi đầu kỳ nghỉ thuận tiện với dịch vụ xe sang đưa đón tận nơi, đảm bảo sự riêng tư và an toàn.', 
-                icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Building size={32} color="#eb2f96" /></div> 
+                desc: 'Xe sang riêng tư, đảm bảo sự thoải mái và riêng tư tuyệt đối.', 
+                icon: <Building size={42} color="#c084fc" /> 
               },
-            ].map((item, index) => (
+            ].map((service, index) => (
               <Col key={index} xs={24} sm={12} lg={6}>
                 <AntCard 
                   hoverable 
-                  variant="borderless"
-                  style={{ textAlign: 'center', height: '100%', borderRadius: 12, background: '#f9f9f9' }}
+                  style={{ 
+                    height: '100%', 
+                    background: 'rgba(30, 41, 59, 0.6)',
+                    border: '1px solid rgba(192, 132, 252, 0.15)',
+                    borderRadius: '16px',
+                    transition: 'all 0.4s'
+                  }}
+                  styles={{ body: { padding: '40px 28px', textAlign: 'center' } }}
+                  className="group hover:-translate-y-3 hover:border-purple-400"
                 >
-                  <div style={{ marginBottom: 20 }}>{item.icon}</div>
-                  <Title level={4}>{item.title}</Title>
-                  <Text type="secondary">{item.desc}</Text>
+                  <div style={{ marginBottom: 28, transition: 'transform 0.4s' }} className="group-hover:scale-110">
+                    {service.icon}
+                  </div>
+                  
+                  <Title level={4} style={{ color: 'white', marginBottom: 16 }}>
+                    {service.title}
+                  </Title>
+                  
+                  <Text style={{ color: '#cbd5e1', lineHeight: 1.7 }}>
+                    {service.desc}
+                  </Text>
                 </AntCard>
               </Col>
             ))}
@@ -126,19 +181,33 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="explore" className="py-12 px-6 sm:py-20 sm:px-8" style={{ background: '#f4f7f6' }}>
+      {/* Featured Rooms */}
+      <section id="explore" style={{ padding: '100px 24px', background: '#0f172a' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <Text style={{ color: '#eb2f96', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 2 }}>
-              Khám phá phòng nghỉ
-            </Text>
-            <Title level={2} className="text-2xl sm:text-3xl md:text-4xl mt-2 mb-0">Phòng nghỉ cao cấp dành cho bạn</Title>
+          <div style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Award size={32} style={{ color: '#c084fc' }} />
+              <Text style={{ 
+                color: '#c4b5fd', 
+                fontWeight: 700, 
+                textTransform: 'uppercase', 
+                letterSpacing: '4px',
+                fontSize: '15px'
+              }}>
+                KHÁM PHÁ PHÒNG NGHỈ
+              </Text>
+            </div>
+            <Title level={2} style={{ color: 'white', margin: 0 }}>
+              Những căn phòng giữa dải Ngân Hà
+            </Title>
           </div>
 
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+            <div style={{ textAlign: 'center', padding: '120px' }}>
+              <Spin size="large" />
+            </div>
           ) : (
-            <Row gutter={[24, 24]}>
+            <Row gutter={[28, 28]}>
               {featuredRooms.map(room => (
                 <Col key={room.id} xs={24} md={12} lg={8}>
                   <RoomCard room={room} />
@@ -147,16 +216,28 @@ const Home = () => {
             </Row>
           )}
 
-          <div style={{ textAlign: 'center', marginTop: 64 }}>
+          <div style={{ textAlign: 'center', marginTop: 80 }}>
             <Link to="/rooms">
-              <Button type="primary" size="large" style={{ background: '#eb2f96', borderColor: '#eb2f96', height: 48, padding: '0 40px', borderRadius: 8 }}>
-                XEM TẤT CẢ PHÒNG
+              <Button 
+                size="large"
+                style={{
+                  height: 62,
+                  padding: '0 48px',
+                  borderRadius: '9999px',
+                  background: 'linear-gradient(90deg, #8b5cf6, #d946ef)',
+                  border: 'none',
+                  fontSize: '17px',
+                  fontWeight: 700,
+                  boxShadow: '0 15px 35px rgba(139, 92, 246, 0.4)'
+                }}
+                className="hover:scale-105 transition-all"
+              >
+                XEM TẤT CẢ PHÒNG NGHỈ
               </Button>
             </Link>
           </div>
         </div>
       </section>
-
     </div>
   );
 };

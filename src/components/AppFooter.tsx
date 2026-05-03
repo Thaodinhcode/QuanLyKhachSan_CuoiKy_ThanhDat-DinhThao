@@ -1,12 +1,30 @@
 import React from 'react';
 import { Layout, Row, Col, Typography, Space, Button, Divider, ConfigProvider } from 'antd';
-import { Mail, ArrowRight, Facebook, Instagram, Youtube, Twitter, Github } from 'lucide-react';
+import { Mail, ArrowRight, Facebook, Instagram, Github, Twitter, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const { Footer } = Layout;
 const { Title, Text } = Typography;
 
 const AppFooter = () => {
+  // Các style dùng chung để code sạch hơn
+  const glassCardStyle = {
+    background: 'rgba(255, 255, 255, 0.03)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '12px',
+    padding: '15px',
+    backdropFilter: 'blur(10px)',
+    transition: 'all 0.3s'
+  };
+
+  const linkStyle = {
+    color: 'rgba(255, 255, 255, 0.5)',
+    display: 'block',
+    fontSize: '14px',
+    cursor: 'pointer',
+    transition: 'all 0.3s'
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -18,120 +36,108 @@ const AppFooter = () => {
       <Footer 
         id="contact" 
         style={{ 
-          background: '#0a0a0a', 
+          // Hiệu ứng nền vũ trụ
+          background: 'radial-gradient(circle at 50% -20%, #1a1a3d 0%, #050505 80%)', 
           color: '#ffffff',
-          padding: '60px 5% 30px',
-          fontFamily: 'Inter, sans-serif'
+          padding: '80px 5% 30px',
+          fontFamily: "'Inter', sans-serif",
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
         }}
       >
-        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <Row gutter={[48, 40]} justify="center">
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <Row gutter={[48, 40]}>
             
-            {/* Cột 1: Brand & CTA */}
-            <Col xs={24} md={12} lg={7}>
-              <Space direction="vertical" size={20}>
+            {/* Cột 1: Brand & Technology Desc */}
+            <Col xs={24} lg={9}>
+              <Space direction="vertical" size={25}>
                 <Link to="/">
                   <img 
                     src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/logo.png" 
                     alt="Stellar Hotel" 
-                    style={{ height: 70, filter: 'brightness(1.1)' }} 
+                    style={{ height: 75, filter: 'drop-shadow(0 0 10px rgba(235, 47, 150, 0.5))' }} 
                   />
                 </Link>
-                <Text style={{ color: 'rgba(255,255,255,0.65)', fontSize: '15px', lineHeight: '1.7', display: 'block' }}>
-                  Trải nghiệm sự xa hoa và dịch vụ đẳng cấp thế giới tại Stellar Hotel. Nơi mỗi khoảnh khắc đều trở thành kỷ niệm khó quên.
+                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: '15px', lineHeight: '1.8', display: 'block' }}>
+                  <strong style={{ color: '#fff' }}>STELLAR GALAXY</strong> - Định nghĩa lại sự xa hoa bằng công nghệ vị lai. 
+                  Trải nghiệm không gian nghỉ dưỡng đẳng cấp 5 sao với hệ thống vận hành thông minh.
                 </Text>
-                <Link to="/rooms">
-                  <Button 
-                    type="primary" 
-                    size="large"
-                    style={{ 
-                      background: '#eb2f96', 
-                      borderColor: '#eb2f96', 
-                      borderRadius: '8px',
-                      height: '45px',
-                      fontWeight: 600,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px'
-                    }}
-                  >
-                    ĐẶT PHÒNG NGAY <ArrowRight size={18} />
-                  </Button>
-                </Link>
+                <Button 
+                  type="primary" 
+                  size="large"
+                  style={{ 
+                    background: 'linear-gradient(90deg, #eb2f96 0%, #722ed1 100%)', 
+                    border: 'none',
+                    height: '50px',
+                    padding: '0 30px',
+                    borderRadius: '4px',
+                    fontWeight: 600,
+                    boxShadow: '0 4px 15px rgba(235, 47, 150, 0.3)'
+                  }}
+                >
+                  ĐẶT PHÒNG NGAY <ArrowRight size={18} style={{ marginLeft: 8 }} />
+                </Button>
               </Space>
             </Col>
 
             {/* Cột 2: Quick Links */}
             <Col xs={12} md={6} lg={4}>
-              <Title level={5} style={{ color: '#fff', marginBottom: 25, fontSize: '14px', letterSpacing: '1.5px' }}>KHÁM PHÁ</Title>
-              <Space direction="vertical" size={12}>
-                {['Điểm đến', 'Ưu đãi đặc biệt', 'Loại phòng', 'Đánh giá'].map((item) => (
-                  <Text 
-                    key={item}
-                    style={{ color: 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'block' }}
-                  >
-                    {item}
-                  </Text>
+              <Title level={5} style={{ color: '#eb2f96', marginBottom: 25, fontSize: '14px', letterSpacing: '2px' }}>KHÁM PHÁ</Title>
+              <Space direction="vertical" size={15}>
+                {['Phòng Suite AI', 'Dịch vụ Spa', 'Nhà hàng Vũ Trụ', 'Sự kiện'].map((item) => (
+                  <Text key={item} style={linkStyle}>{item}</Text>
                 ))}
               </Space>
             </Col>
 
-            {/* Cột 3: Services */}
-            <Col xs={12} md={6} lg={4}>
-              <Title level={5} style={{ color: '#fff', marginBottom: 25, fontSize: '14px', letterSpacing: '1.5px' }}>DỊCH VỤ</Title>
-              <Space direction="vertical" size={12}>
-                {['Hỗ trợ 24/7', 'Đưa đón sân bay', 'Spa & Massage', 'Tổ chức sự kiện'].map((item) => (
-                  <Text 
-                    key={item}
-                    style={{ color: 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'block' }}
-                  >
-                    {item}
-                  </Text>
-                ))}
-              </Space>
-            </Col>
-
-            {/* Cột 4: Contact Professionals */}
-            <Col xs={24} md={12} lg={9}>
-              <Title level={5} style={{ color: '#fff', marginBottom: 25, fontSize: '14px', letterSpacing: '1.5px' }}>LIÊN HỆ</Title>
+            {/* Cột 3: Founders & Contact */}
+            <Col xs={24} md={12} lg={11}>
+              <Title level={5} style={{ color: '#722ed1', marginBottom: 25, fontSize: '14px', letterSpacing: '2px' }}>ĐỘI NGŨ SÁNG LẬP</Title>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {/* Info Card 1 */}
-                <div style={{ borderLeft: '3px solid #eb2f96', paddingLeft: '15px', marginBottom: '10px' }}>
-                  <Text strong style={{ color: '#fff', display: 'block', fontSize: '15px' }}>Đình Thảo (Founder)</Text>
-                  <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', margin: '4px 0' }}>
-                    <Mail size={14} /> nguyendinhthao@gmail.com
-                  </Text>
-                  <Space size={15} style={{ marginTop: '8px' }}>
-                    <Facebook size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                    <Instagram size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                    <Github size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                  </Space>
-                </div>
+              <Row gutter={[16, 16]}>
+                <Col span={12}>
+                  <div style={{ ...glassCardStyle, borderLeft: '4px solid #eb2f96' }}>
+                    <Text strong style={{ color: '#fff', fontSize: '15px', display: 'block' }}>Đình Thảo</Text>
+                    <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>Founder & CEO</Text>
+                    <Space size={12} style={{ marginTop: 10, display: 'flex' }}>
+                      <Mail size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                      <Facebook size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                      <Github size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                    </Space>
+                  </div>
+                </Col>
 
-                {/* Info Card 2 */}
-                <div style={{ borderLeft: '3px solid #722ed1', paddingLeft: '15px' }}>
-                  <Text strong style={{ color: '#fff', display: 'block', fontSize: '15px' }}>Thành Đạt (Co-Founder)</Text>
-                  <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', margin: '4px 0' }}>
-                    <Mail size={14} /> nguyenthanhdat@gmail.com
-                  </Text>
-                  <Space size={15} style={{ marginTop: '8px' }}>
-                    <Facebook size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                    <Instagram size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                    <Twitter size={16} style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }} />
-                  </Space>
-                </div>
-              </div>
+                <Col span={12}>
+                  <div style={{ ...glassCardStyle, borderLeft: '4px solid #722ed1' }}>
+                    <Text strong style={{ color: '#fff', fontSize: '15px', display: 'block' }}>Thành Đạt</Text>
+                    <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>Co-Founder & CTO</Text>
+                    <Space size={12} style={{ marginTop: 10, display: 'flex' }}>
+                      <Mail size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                      <Twitter size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                      <Linkedin size={14} style={{ color: 'rgba(255,255,255,0.6)' }} />
+                    </Space>
+                  </div>
+                </Col>
+              </Row>
             </Col>
           </Row>
 
-          <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.1)', margin: '40px 0 20px' }} />
+          <Divider style={{ borderColor: 'rgba(255, 255, 255, 0.08)', margin: '50px 0 25px' }} />
 
-          <div style={{ textAlign: 'center' }}>
-            <Text style={{ color: 'rgba(255,255,255,0.3)', fontSize: '13px' }}>
-              © {new Date().getFullYear()} Stellar Hotel. Phát triển bởi <span style={{ color: '#eb2f96' }}>Dinh Thao & Thanh Dat</span>
-            </Text>
-          </div>
+          <Row justify="space-between" align="middle">
+            <Col xs={24} md={12}>
+              <Text style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
+                © {new Date().getFullYear()} STELLAR HOTEL. DESIGNED FOR THE FUTURE.
+              </Text>
+            </Col>
+            <Col xs={24} md={12} style={{ textAlign: 'right' }}>
+              <Space size={20}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#52c41a', boxShadow: '0 0 8px #52c41a' }}></div>
+                  <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px' }}>Nguyễn Đình Thảo</Text>
+                </div>
+              </Space>
+            </Col>
+          </Row>
         </div>
       </Footer>
     </ConfigProvider>

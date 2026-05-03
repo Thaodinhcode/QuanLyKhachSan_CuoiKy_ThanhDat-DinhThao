@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Typography, Table, Tag, Empty, Space, Spin, Card, Button, Modal, Descriptions, Divider, App } from 'antd';
 import { Booking, Room } from '../types';
 import { RoomService, BookingService } from '../services/api';
 import { useUser } from '../context/UserContext';
 import dayjs from 'dayjs';
-import { Calendar, Eye, Trash2, CreditCard, Banknote } from 'lucide-react';
+import { Calendar, Eye, Trash2, CreditCard, Banknote, Sparkles } from 'lucide-react';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -72,8 +72,14 @@ const MyBookings = () => {
       dataIndex: 'id',
       key: 'id',
       render: (id: string) => (
-        <div style={{ background: '#f8fafc', padding: '4px 8px', borderRadius: 4, display: 'inline-block', border: '1px solid #e2e8f0' }}>
-          <Text strong style={{ fontSize: 11, color: '#475569' }}>#BK-{id}</Text>
+        <div style={{ 
+          background: 'rgba(139, 92, 246, 0.1)', 
+          padding: '6px 12px', 
+          borderRadius: 8, 
+          display: 'inline-block',
+          border: '1px solid rgba(192, 132, 252, 0.3)'
+        }}>
+          <Text strong style={{ fontSize: 13, color: '#c4b5fd' }}>#BK-{id.slice(0,8)}</Text>
         </div>
       ),
     },
@@ -83,9 +89,10 @@ const MyBookings = () => {
       render: (_: any, record: Booking) => {
         const room = rooms.find((r: Room) => r.id === record.roomId);
         return (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Text strong style={{ fontSize: 14 }}>{room?.name || 'Phòng không xác định'}</Text>
-            <Text type="secondary" style={{ fontSize: 12 }}>{room?.type}</Text>
+          <div>
+            <Text strong style={{ color: 'white', fontSize: 15 }}>{room?.name || 'Không xác định'}</Text>
+            <br />
+            <Text style={{ color: '#a5b4fc', fontSize: 13 }}>{room?.type}</Text>
           </div>
         );
       }
@@ -94,9 +101,11 @@ const MyBookings = () => {
       title: 'THỜI GIAN',
       key: 'dates',
       render: (_: any, record: Booking) => (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text style={{ fontSize: 13 }}>{dayjs(record.checkIn).format('DD/MM/YYYY')} → {dayjs(record.checkOut).format('DD/MM/YYYY')}</Text>
-          <Text type="secondary" style={{ fontSize: 12 }}>{dayjs(record.checkOut).diff(dayjs(record.checkIn), 'day')} đêm · {record.guests} khách</Text>
+        <div style={{ color: '#e0e7ff' }}>
+          <div>{dayjs(record.checkIn).format('DD/MM/YYYY')} → {dayjs(record.checkOut).format('DD/MM/YYYY')}</div>
+          <Text style={{ color: '#94a3b8', fontSize: 13 }}>
+            {dayjs(record.checkOut).diff(dayjs(record.checkIn), 'day')} đêm • {record.guests} khách
+          </Text>
         </div>
       )
     },
@@ -104,13 +113,18 @@ const MyBookings = () => {
       title: 'THANH TOÁN',
       key: 'payment',
       render: (_: any, record: Booking) => (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            {record.paymentMethod === 'Transfer' ? <CreditCard size={14} color="#1677ff" /> : <Banknote size={14} color="#52c41a" />}
-            <Text style={{ fontSize: 13 }}>{record.paymentMethod === 'Transfer' ? 'Chuyển khoản' : 'Tiền mặt'}</Text>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+            {record.paymentMethod === 'Transfer' ? 
+              <CreditCard size={18} color="#a5b4fc" /> : 
+              <Banknote size={18} color="#86efac" />}
+            <Text style={{ color: '#e0e7ff' }}>
+              {record.paymentMethod === 'Transfer' ? 'Chuyển khoản' : 'Tiền mặt'}
+            </Text>
           </div>
-          <Tag color={record.paymentStatus === 'Paid' ? 'green' : 'gold'} style={{ borderRadius: 10, fontSize: 10, alignSelf: 'flex-start' }}>
-            {record.paymentStatus === 'Paid' ? 'Đã thanh toán' : 'Chờ thanh toán'}
+          <Tag color={record.paymentStatus === 'Paid' ? 'green' : 'gold'} 
+               style={{ borderRadius: 9999, fontWeight: 600 }}>
+            {record.paymentStatus === 'Paid' ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}
           </Tag>
         </div>
       )
@@ -119,7 +133,15 @@ const MyBookings = () => {
       title: 'TỔNG TIỀN',
       dataIndex: 'totalPrice',
       key: 'totalPrice',
-      render: (price: number) => <Text strong style={{ color: '#eb2f96', fontSize: 16 }}>${price.toLocaleString()}</Text>
+      render: (price: number) => (
+        <Text strong style={{ 
+          color: '#e0bbff', 
+          fontSize: 18,
+          textShadow: '0 0 15px rgba(224, 187, 255, 0.3)'
+        }}>
+          ${price.toLocaleString()}
+        </Text>
+      )
     },
     {
       title: 'TRẠNG THÁI',
@@ -134,7 +156,11 @@ const MyBookings = () => {
         };
         const item = config[status] || { color: 'default', label: status };
         return (
-          <Tag color={item.color} style={{ fontWeight: 500, borderRadius: 4, padding: '2px 8px' }}>
+          <Tag color={item.color} style={{ 
+            fontWeight: 600, 
+            borderRadius: 9999, 
+            padding: '4px 14px' 
+          }}>
             {item.label}
           </Tag>
         );
@@ -145,12 +171,12 @@ const MyBookings = () => {
       key: 'action',
       align: 'center' as const,
       render: (_: any, record: Booking) => (
-        <Space size="middle">
+        <Space size="small">
           <Button 
             type="text" 
-            icon={<Eye size={16} />} 
+            icon={<Eye size={18} />} 
             onClick={() => showDetail(record)}
-            style={{ color: '#1677ff', display: 'flex', alignItems: 'center', gap: 4 }}
+            style={{ color: '#c4b5fd' }}
           >
             Chi tiết
           </Button>
@@ -158,9 +184,8 @@ const MyBookings = () => {
             <Button 
               type="text" 
               danger 
-              icon={<Trash2 size={16} />} 
+              icon={<Trash2 size={18} />} 
               onClick={() => handleCancelBooking(record.id)}
-              style={{ display: 'flex', alignItems: 'center', gap: 4 }}
             >
               Hủy
             </Button>
@@ -170,85 +195,135 @@ const MyBookings = () => {
     }
   ];
 
-  if (!currentUser) return (
-    <div style={{ textAlign: 'center', padding: '100px' }}>
-      <Title level={4}>Vui lòng đăng nhập để xem đơn đặt phòng</Title>
-      <Button type="primary" style={{ marginTop: 16 }} onClick={() => window.location.href = '/auth'}>Đăng nhập ngay</Button>
-    </div>
-  );
+  if (!currentUser) {
+    return (
+      <div style={{ textAlign: 'center', padding: '120px 24px', background: '#0f172a', minHeight: '80vh' }}>
+        <Title level={3} style={{ color: 'white' }}>Vui lòng đăng nhập để xem đơn đặt</Title>
+        <Button type="primary" size="large" onClick={() => window.location.href = '/auth'} style={{ marginTop: 20 }}>
+          Đăng nhập ngay
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <Content style={{ maxWidth: '1200px', margin: '0 auto', minHeight: '80vh' }} className="py-8 px-4 sm:py-12 sm:px-6">
-      <div style={{ marginBottom: 40 }}>
-        <Title level={2} style={{ marginBottom: 8 }} className="text-xl sm:text-2xl md:text-3xl">Đơn đặt phòng của tôi</Title>
-        <Text type="secondary" style={{ fontSize: 16 }}>Theo dõi trạng thái và quản lý các dịch vụ lưu trú của bạn.</Text>
+    <Content style={{ 
+      maxWidth: '1280px', 
+      margin: '0 auto', 
+      minHeight: '80vh',
+      background: '#0f172a',
+      padding: '40px 24px'
+    }}>
+      <div style={{ marginBottom: 50, textAlign: 'center' }}>
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <Sparkles size={36} style={{ color: '#c084fc' }} />
+          <Text style={{ color: '#c4b5fd', fontSize: 16, letterSpacing: 4, fontWeight: 700, textTransform: 'uppercase' }}>
+            STELLAR BOOKINGS
+          </Text>
+        </div>
+        <Title level={2} style={{ color: 'white', margin: 0 }}>Đơn đặt phòng của tôi</Title>
+        <Text style={{ color: '#a5b4fc', fontSize: 17 }}>Quản lý & theo dõi các hành trình của bạn</Text>
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+        <div style={{ textAlign: 'center', padding: '140px' }}>
+          <Spin size="large" />
+        </div>
       ) : bookings.length > 0 ? (
-        <AntCard variant="borderless" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)', borderRadius: 16 }}>
+        <AntCard 
+          style={{ 
+            background: 'rgba(30, 41, 59, 0.7)', 
+            border: '1px solid rgba(192, 132, 252, 0.2)',
+            borderRadius: 20,
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)'
+          }}
+        >
           <Table 
             columns={columns} 
             dataSource={bookings} 
             rowKey="id" 
-            pagination={{ pageSize: 5, hideOnSinglePage: true }}
-            scroll={{ x: 800 }}
+            pagination={{ pageSize: 6, hideOnSinglePage: true }}
+            scroll={{ x: 900 }}
+            style={{ background: 'transparent' }}
           />
         </AntCard>
       ) : (
-        <AntCard style={{ textAlign: 'center', padding: '64px 0', borderRadius: 16 }}>
+        <AntCard style={{ 
+          textAlign: 'center', 
+          padding: '100px 40px', 
+          background: 'rgba(30, 41, 59, 0.6)',
+          border: '1px solid rgba(192, 132, 252, 0.15)',
+          borderRadius: 20 
+        }}>
           <Empty 
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
             description={
-              <Space orientation="vertical">
-                <Text type="secondary">Bạn chưa có bất kỳ giao dịch đặt phòng nào.</Text>
-                <Button type="primary" onClick={() => window.location.href = '/rooms'}>Khám phá phòng ngay</Button>
+              <Space direction="vertical" size={16}>
+                <Text style={{ color: '#cbd5e1', fontSize: 18 }}>Bạn chưa có đơn đặt phòng nào.</Text>
+                <Button type="primary" size="large" onClick={() => window.location.href = '/rooms'}>
+                  Khám phá phòng ngay
+                </Button>
               </Space>
             } 
           />
         </AntCard>
       )}
 
-      {/* Detail Modal */}
+      {/* Detail Modal - Cosmic Style */}
       <Modal
-        title={<Title level={4} style={{ margin: 0 }}>Chi tiết đơn đặt phòng #BK-{selectedBooking?.id.slice(-4).toUpperCase()}</Title>}
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Sparkles style={{ color: '#c084fc' }} />
+            <span>Chi tiết đơn #BK-{selectedBooking?.id.slice(-6).toUpperCase()}</span>
+          </div>
+        }
         open={isDetailModalOpen}
         onCancel={() => setIsDetailModalOpen(false)}
-        footer={[
-          <Button key="close" onClick={() => setIsDetailModalOpen(false)}>Đóng</Button>
-        ]}
-        width={650}
-        styles={{ body: { padding: '20px 24px' } }}
+        footer={[<Button key="close" size="large" onClick={() => setIsDetailModalOpen(false)}>Đóng</Button>]}
+        width={700}
+        styles={{ 
+          body: { 
+            background: '#1e2937', 
+            color: '#e0e7ff',
+            padding: '30px' 
+          },
+          header: { background: '#1e2937', borderBottom: '1px solid #334155' }
+        }}
       >
         {selectedBooking && (
           <div>
-            <Descriptions title="Thông tin khách hàng" bordered column={1} size="small">
+            <Descriptions title="Thông tin khách hàng" bordered column={1} size="middle" labelStyle={{ color: '#94a3b8' }}>
               <Descriptions.Item label="Họ tên">{selectedBooking.guestName}</Descriptions.Item>
               <Descriptions.Item label="Số CMND/CCCD">{selectedBooking.guestIdCard}</Descriptions.Item>
               <Descriptions.Item label="Ngày đặt">{dayjs(selectedBooking.createdAt).format('HH:mm DD/MM/YYYY')}</Descriptions.Item>
             </Descriptions>
-            
-            <Divider />
-            
-            <Descriptions title="Thông tin phòng & Dịch vụ" bordered column={1} size="small">
+
+            <Divider style={{ borderColor: '#475569' }} />
+
+            <Descriptions title="Thông tin phòng" bordered column={1} size="middle" labelStyle={{ color: '#94a3b8' }}>
               <Descriptions.Item label="Tên phòng">{roomOfSelected?.name}</Descriptions.Item>
               <Descriptions.Item label="Loại phòng">{roomOfSelected?.type}</Descriptions.Item>
-              <Descriptions.Item label="Thời gian lưu trú">{dayjs(selectedBooking.checkIn).format('DD/MM/YYYY')} - {dayjs(selectedBooking.checkOut).format('DD/MM/YYYY')} ({dayjs(selectedBooking.checkOut).diff(dayjs(selectedBooking.checkIn), 'day')} đêm)</Descriptions.Item>
+              <Descriptions.Item label="Thời gian lưu trú">
+                {dayjs(selectedBooking.checkIn).format('DD/MM/YYYY')} — {dayjs(selectedBooking.checkOut).format('DD/MM/YYYY')}
+                <br />({dayjs(selectedBooking.checkOut).diff(dayjs(selectedBooking.checkIn), 'day')} đêm)
+              </Descriptions.Item>
               <Descriptions.Item label="Số lượng khách">{selectedBooking.guests} người</Descriptions.Item>
             </Descriptions>
 
-            <Divider />
+            <Divider style={{ borderColor: '#475569' }} />
 
-            <Descriptions title="Thanh toán" bordered column={1} size="small">
-              <Descriptions.Item label="Phương thức">{selectedBooking.paymentMethod === 'Transfer' ? 'Chuyển khoản ngân hàng' : 'Thanh toán tiền mặt'}</Descriptions.Item>
-              <Descriptions.Item label="Trạng thái">
-                <Tag color={selectedBooking.paymentStatus === 'Paid' ? 'green' : 'warning'}>
-                  {selectedBooking.paymentStatus === 'Paid' ? 'Đã hoàn tất' : 'Chờ xác nhận'}
+            <Descriptions title="Thanh toán" bordered column={1} size="middle" labelStyle={{ color: '#94a3b8' }}>
+              <Descriptions.Item label="Phương thức">
+                {selectedBooking.paymentMethod === 'Transfer' ? 'Chuyển khoản ngân hàng' : 'Tiền mặt'}
+              </Descriptions.Item>
+              <Descriptions.Item label="Trạng thái thanh toán">
+                <Tag color={selectedBooking.paymentStatus === 'Paid' ? 'green' : 'gold'}>
+                  {selectedBooking.paymentStatus === 'Paid' ? 'ĐÃ THANH TOÁN' : 'CHƯA THANH TOÁN'}
                 </Tag>
               </Descriptions.Item>
               <Descriptions.Item label="Tổng cộng">
-                <Title level={4} style={{ margin: 0, color: '#eb2f96' }}>${selectedBooking.totalPrice.toLocaleString()}</Title>
+                <Title level={3} style={{ color: '#e0bbff', margin: 0 }}>
+                  ${selectedBooking.totalPrice.toLocaleString()}
+                </Title>
               </Descriptions.Item>
             </Descriptions>
           </div>
