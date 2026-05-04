@@ -59,3 +59,14 @@ const AppFooter = () => {
               <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Mẹo & Hướng dẫn du lịch</Text>
             </Space>
           </Col>
+
+          {/* Cột 3: Dịch vụ - Chỉnh lg={6} để đều */}
+          <Col xs={12} md={12} lg={6}>
+            <Title level={5} style={{ color: 'white', marginBottom: 20 }}>DỊCH VỤ CỦA CHÚNG TÔI</Title>
+            <Space direction="vertical" size={20}>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Hỗ trợ tận tâm</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Tùy chọn đặt phòng linh hoạt</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Đưa đón sân bay</Text>
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Chăm sóc sức khỏe & Giải trí</Text>
+            </Space>
+          </Col>

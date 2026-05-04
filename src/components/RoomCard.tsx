@@ -69,3 +69,24 @@ const RoomCard: React.FC<RoomCardProps> = ({ room }) => {
             border: `1px solid ${room.status === 'Available' ? '#b7eb8f' : room.status === 'Occupied' ? '#ffa39e' : '#ffe58f'}`
           }}
         >
+          {statusLabels[room.status]}
+        </Tag>
+      </div>
+      <Title level={4} style={{ margin: '0 0 16px 0', fontSize: '18px' }}>{room.name}</Title>
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div>
+          <Text strong style={{ fontSize: '20px' }}>${room.price}</Text>
+          <Text type="secondary" style={{ fontSize: '12px' }}> / đêm</Text>
+        </div>
+        <Link to={`/rooms/${room.id}`}>
+          <Button type="primary" size="middle" style={{ borderRadius: '4px' }}>
+            Book Now
+          </Button>
+        </Link>
+      </div>
+    </AntCard>
+  );
+};
+
+export default RoomCard;

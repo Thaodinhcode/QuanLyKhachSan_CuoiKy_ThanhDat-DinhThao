@@ -44,3 +44,5 @@ const AboutUs = () => {
             <Space orientation="vertical" size={12} style={{ marginBottom: 24 }}>
               <Space><Check size={18} color="#eb2f96" /><Text>Hơn 25 cơ sở trên toàn quốc</Text></Space>
               <Space><Check size={18} color="#eb2f96" /><Text>Dịch vụ chăm sóc khách hàng 24/7</Text></Space>
+              <Space><Check size={18} color="#eb2f96" /><Text>Ẩm thực tinh hoa chuẩn 5 sao</Text></Space>
+            </Space>

@@ -76,3 +76,15 @@ const Rooms = () => {
           />
         </div>
       </div>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+      ) : rooms.length > 0 ? (
+        <>
+          <Row gutter={[24, 24]}>
+            {currentRooms.map(room => (
+              <Col xs={24} sm={12} lg={8} key={room.id}>
+                <RoomCard room={room} />
+              </Col>
+            ))}
+          </Row>

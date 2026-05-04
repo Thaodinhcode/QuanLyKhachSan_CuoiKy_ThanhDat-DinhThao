@@ -103,3 +103,21 @@ const Navbar = () => {
           className="hidden lg:flex"
         />
       </div>
+
+      {/* Right side: User Actions */}
+      <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+      {user ? (
+        <div className="hidden lg:block">
+          <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" arrow>
+            <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+              {/* Thay đổi ở đây: Sử dụng thẻ img hoặc Avatar với src */}
+             <img 
+            src="https://www.clipartmax.com/png/middle/171-1717870_stockvader-predicted-cron-for-may-user-profile-icon-png.png" 
+            alt="Logo" 
+            style={{ 
+              width: '40px', 
+              height: '40px', 
+              borderRadius: '50%', 
+              objectFit: 'cover',
+              marginRight: '8px'
+            }} 

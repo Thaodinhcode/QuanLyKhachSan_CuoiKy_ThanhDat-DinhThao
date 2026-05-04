@@ -109,3 +109,19 @@ const Home = () => {
                 desc: 'Khởi đầu kỳ nghỉ thuận tiện với dịch vụ xe sang đưa đón tận nơi, đảm bảo sự riêng tư và an toàn.', 
                 icon: <div style={{ display: 'flex', justifyContent: 'center' }}><Building size={32} color="#eb2f96" /></div> 
               },
+            ].map((item, index) => (
+              <Col key={index} xs={24} sm={12} lg={6}>
+                <AntCard 
+                  hoverable 
+                  variant="borderless"
+                  style={{ textAlign: 'center', height: '100%', borderRadius: 12, background: '#f9f9f9' }}
+                >
+                  <div style={{ marginBottom: 20 }}>{item.icon}</div>
+                  <Title level={4}>{item.title}</Title>
+                  <Text type="secondary">{item.desc}</Text>
+                </AntCard>
+              </Col>
+            ))}
+          </Row>
+        </div>
+      </section>

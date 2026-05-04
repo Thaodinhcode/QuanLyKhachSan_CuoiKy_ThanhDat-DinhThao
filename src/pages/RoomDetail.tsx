@@ -169,3 +169,82 @@ const RoomDetail = () => {
       },
     });
   };
+
+  const handleUploadChange = async (info: any) => {
+    if (info.file.status === 'done' || info.file.status === 'uploading') {
+      const hide = message.loading('Đang quét thông tin CCCD...', 0);
+      try {
+        const detectedId = await bookingService.mockVerifyCCCD();
+        form.setFieldsValue({ idCard: detectedId });
+        message.success('Đã tự động điền số CCCD từ ảnh!');
+      } finally {
+        hide();
+      }
+    }
+  };
+
+  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', padding: '100px' }}><Spin size="large" /></div>;
+  if (!room) return <div style={{ textAlign: 'center', padding: '100px' }}>Phòng không tồn tại</div>;
+
+  return (
+    <Content style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+      <Button icon={<ChevronLeft size={16} />} onClick={() => navigate(-1)} style={{ marginBottom: '24px' }}>
+        Quay lại
+      </Button>
+
+      <Row gutter={[40, 40]}>
+        <Col xs={24} lg={14}>
+          <img 
+            src={room.image} 
+            alt={room.name} 
+            style={{ width: '100%', borderRadius: '12px', minHeight: '300px', maxHeight: '500px', objectFit: 'cover', boxShadow: '0 8px 30px rgba(0,0,0,0.1)' }} 
+          />
+          
+          <div style={{ marginTop: '32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
+              <Tag color="blue" style={{ borderRadius: 2 }}>{room.type}</Tag>
+              <Tag color={room.status === 'Available' ? 'success' : room.status === 'Occupied' ? 'error' : 'warning'} style={{ borderRadius: 2 }}>
+                {room.status === 'Available' ? 'Trống' : room.status === 'Occupied' ? 'Hết phòng' : 'Bảo trì'}
+              </Tag>
+              {room.reviews.length > 0 && (
+                <Space size={4}>
+                  <Star size={14} color="#fadb14" fill="#fadb14" />
+                  <Text strong>{avgRating}</Text>
+                  <Text type="secondary" style={{ fontSize: 12 }}>({room.reviews.length} đánh giá)</Text>
+                </Space>
+              )}
+            </div>
+            <Title level={1} style={{ margin: 0, letterSpacing: '-0.02em' }}>{room.name}</Title>
+            <Divider />
+            
+            <Title level={4}>Trải nghiệm không gian</Title>
+            <Paragraph style={{ fontSize: '16px', lineHeight: '1.8', color: '#4b5563' }}>{room.description}</Paragraph>
+            
+            <Divider />
+            
+            <Title level={4}>Tiện nghi cao cấp</Title>
+            <Row gutter={[16, 24]}>
+              {room.amenities?.map(item => (
+                <Col span={12} md={8} key={item}>
+                  <Space>
+                    <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#f0f7ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <CheckCircle size={14} color="#1677ff" />
+                    </div>
+                    <Text>{item}</Text>
+                  </Space>
+                </Col>
+              ))}
+            </Row>
+
+            <Divider />
+
+            <div id="reviews">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <Title level={4} style={{ margin: 0 }}>Đánh giá từ khách hàng</Title>
+                {room.reviews.length > 0 && (
+                  <div style={{ textAlign: 'right' }}>
+                    <Title level={2} style={{ margin: 0, color: '#fadb14' }}>{avgRating}</Title>
+                    <Rate disabled defaultValue={Number(avgRating)} allowHalf style={{ fontSize: 14 }} />
+                  </div>
+                )}
+              </div>

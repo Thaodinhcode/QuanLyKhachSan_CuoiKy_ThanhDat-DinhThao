@@ -61,3 +61,22 @@ const Hero = () => {
             </Text>
           </Space>
         </div>
+
+        {/* Search Bar - Positioned Absolute at Bottom Center */}
+        <div style={{
+          position: window.innerWidth > 768 ? 'absolute' : 'relative', // Mobile thì không dùng absolute
+          bottom: window.innerWidth > 768 ? -40 : 0,
+          left: window.innerWidth > 768 ? '50%' : 'auto',
+          transform: window.innerWidth > 768 ? 'translateX(-50%)' : 'none',
+          width: window.innerWidth > 768 ? 'calc(100% - 48px)' : '100%',
+          maxWidth: 1100,
+          zIndex: 10,
+          marginTop: window.innerWidth > 768 ? 0 : 32, // Tạo khoảng cách trên mobile
+        }} className="hero-search-wrapper">
+          <AntCard 
+            style={{ 
+              borderRadius: 20, 
+              boxShadow: '0 30px 60px rgba(0,0,0,0.15)', 
+              border: 'none',
+              background: '#ffffff',
+            }}
