@@ -70,3 +70,31 @@ const AppFooter = () => {
               <Text style={{ color: 'rgba(255,255,255,0.7)' }}>Chăm sóc sức khỏe & Giải trí</Text>
             </Space>
           </Col>
+
+          {/* Cột 4: Liên hệ - Chỉnh lg={6} để tổng bằng 24 (6x4=24) */}
+          <Col xs={24} md={12} lg={6}>
+            <Title level={5} style={{ color: 'white', marginBottom: 20 }}>LIÊN HỆ</Title>
+            
+            <Space direction="vertical" size={28} style={{ width: '100%' }}>
+              <div>
+                <Text style={{ color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: 8 }}>
+                  <a>nguyendinhthao@gmail.com</a>
+                </Text>
+                <Space size={16}>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/facebook.png" width={24} alt="FB" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/instagram.png" width={24} alt="IG" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/youtube.png" width={24} alt="YT" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/twitter.png" width={24} alt="TW" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/github.png" width={24} alt="GH" />
+                  </a>
+                </Space>
+              </div>

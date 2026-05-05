@@ -121,3 +121,54 @@ const Navbar = () => {
               objectFit: 'cover',
               marginRight: '8px'
             }} 
+          />
+          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
+            <Text strong style={{ fontSize: 13 }}>{user.name}</Text>
+            <Text type="secondary" style={{ fontSize: 10 }}>{user.role}</Text>
+          </div>
+        </div>
+      </Dropdown>
+          </div>
+        ) : (
+          <div className="hidden lg:block">
+            <Link to="/auth">
+              <Button type="primary" shape="round" style={{ background: '#eb2f96', border: 'none' }}>
+                Đăng nhập
+              </Button>
+            </Link>
+          </div>
+        )}
+
+        {/* Mobile Toggle Button */}
+        <Button 
+          type="text" 
+          icon={<MenuIcon size={24} />} 
+          className="lg:hidden" 
+          onClick={() => setVisible(true)} 
+          style={{ marginLeft: 8 }}
+        />
+      </div>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/logo.png" width={24} alt="logo" />
+            <span>STELLAR</span>
+          </div>
+        }
+        placement="right"
+        onClose={() => setVisible(false)}
+        open={visible}
+        width={280}
+        closeIcon={<X size={20} />}
+      >
+        {user && (
+          <div style={{ padding: '0 0 20px 12px' }}>
+            <Space align="center" style={{ marginBottom: 16 }}>
+              <Avatar 
+                size={48} 
+                src="https://www.clipartmax.com/png/middle/171-1717870_stockvader-predicted-cron-for-may-user-profile-icon-png.png" 
+                alt="User Logo"
+                style={{ border: '1px solid #f0f0f0' }}
+              />

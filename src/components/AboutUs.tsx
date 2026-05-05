@@ -46,3 +46,14 @@ const AboutUs = () => {
               <Space><Check size={18} color="#eb2f96" /><Text>Dịch vụ chăm sóc khách hàng 24/7</Text></Space>
               <Space><Check size={18} color="#eb2f96" /><Text>Ẩm thực tinh hoa chuẩn 5 sao</Text></Space>
             </Space>
+            <Button size="large" style={{ borderRadius: 8, height: 48, padding: '0 32px' }}>
+              <a href ="#contact">Tìm hiểu thêm</a>
+            </Button>
+          </Space>
+        </Col>
+      </Row>
+    </section>
+  );
+};
+
+export default AboutUs;

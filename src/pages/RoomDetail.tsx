@@ -248,3 +248,60 @@ const RoomDetail = () => {
                   </div>
                 )}
               </div>
+
+              {canReview && (
+                <AntCard variant="borderless" style={{ background: '#f8fafc', borderRadius: 12, marginBottom: 32 }}>
+                  <Text strong>Viết đánh giá của bạn</Text>
+                  <Form form={reviewForm} layout="vertical" onFinish={handleAddReview} style={{ marginTop: 16 }}>
+                    <Form.Item name="rating" label="Thang điểm" rules={[{ required: true, message: 'Vui lòng chọn mức độ hài lòng!' }]}>
+                      <Rate style={{ color: '#eb2f96' }} />
+                    </Form.Item>
+                    <Form.Item name="comment" label="Nội dung" rules={[{ required: true, message: 'Vui lòng nhập nội dung đánh giá!' }]}>
+                      <TextArea rows={3} placeholder="Chia sẻ trải nghiệm của bạn về căn phòng này..." />
+                    </Form.Item>
+                    <Button type="primary" htmlType="submit" style={{ background: '#eb2f96', borderColor: '#eb2f96' }}>Gửi đánh giá</Button>
+                  </Form>
+                </AntCard>
+              )}
+
+              {!canReview && currentUser && currentUser.role === 'User' && (
+                <div style={{ background: '#f1f5f9', padding: '12px 16px', borderRadius: 8, marginBottom: 32, fontSize: 13, color: '#64748b' }}>
+                  Bạn chỉ có thể đánh giá sau khi đã hoàn tất kỳ nghỉ tại phòng này.
+                </div>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                {room.reviews.length > 0 ? (
+                  <>
+                    <style>{`
+                      .ant-pagination-item-active {
+                        border-color: #eb2f96 !important;
+                      }
+                      .ant-pagination-item-active a {
+                        color: #eb2f96 !important;
+                      }
+                      .ant-pagination-item:hover {
+                        border-color: #eb2f96 !important;
+                      }
+                      .ant-pagination-item:hover a {
+                        color: #eb2f96 !important;
+                      }
+                    `}</style>
+                    {room.reviews?.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((item: Review) => (
+                      <div key={item.id} style={{ display: 'flex', gap: '16px', padding: '16px 0', borderBottom: '1px solid #f1f5f9' }}>
+                        <Avatar icon={<User size={16} />} style={{ backgroundColor: '#eb2f96' }} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ marginBottom: 4 }}>
+                            <Space orientation="vertical" size={2}>
+                              <Text strong>{item.userName}</Text>
+                              <Rate disabled defaultValue={item.rating} style={{ fontSize: 12, color: '#fadb14' }} />
+                            </Space>
+                          </div>
+                          <div style={{ marginTop: 8 }}>
+                            <Paragraph style={{ color: '#334155', marginBottom: 4 }}>{item.comment}</Paragraph>
+                            <Text type="secondary" style={{ fontSize: 12 }}>{dayjs(item.date).format('DD/MM/YYYY')}</Text>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    

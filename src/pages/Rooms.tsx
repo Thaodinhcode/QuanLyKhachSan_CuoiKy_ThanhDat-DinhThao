@@ -88,3 +88,25 @@ const Rooms = () => {
               </Col>
             ))}
           </Row>
+          
+          <div style={{ marginTop: '48px', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={rooms.length}
+              onChange={handlePageChange}
+              showSizeChanger={false}
+              hideOnSinglePage
+            />
+          </div>
+        </>
+      ) : (
+        <div style={{ padding: '100px 0' }}>
+          <Empty description="Không tìm thấy phòng nào phù hợp" />
+        </div>
+      )}
+    </Content>
+  );
+};
+
+export default Rooms;

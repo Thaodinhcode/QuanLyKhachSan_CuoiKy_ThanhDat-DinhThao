@@ -125,3 +125,24 @@ const Home = () => {
           </Row>
         </div>
       </section>
+
+      <section id="explore" className="py-12 px-6 sm:py-20 sm:px-8" style={{ background: '#f4f7f6' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <Text style={{ color: '#eb2f96', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 2 }}>
+              Khám phá phòng nghỉ
+            </Text>
+            <Title level={2} className="text-2xl sm:text-3xl md:text-4xl mt-2 mb-0">Phòng nghỉ cao cấp dành cho bạn</Title>
+          </div>
+
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+          ) : (
+            <Row gutter={[24, 24]}>
+              {featuredRooms.map(room => (
+                <Col key={room.id} xs={24} md={12} lg={8}>
+                  <RoomCard room={room} />
+                </Col>
+              ))}
+            </Row>
+          )}

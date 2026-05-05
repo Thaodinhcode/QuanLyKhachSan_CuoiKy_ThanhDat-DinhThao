@@ -80,3 +80,43 @@ const Hero = () => {
               border: 'none',
               background: '#ffffff',
             }}
+            styles={{ body: { padding: '12px' } }}
+          >
+            <Row gutter={[16, 16]} align="middle">
+              <Col xs={24} md={10}>
+                <div 
+                  style={{ 
+                    textAlign: 'left', 
+                    padding: '8px 16px', 
+                    borderRadius: 12, 
+                    transition: 'all 0.3s',
+                    cursor: 'pointer'
+                  }} 
+                  className="hover:bg-gray-50 flex flex-col"
+                  onClick={() => {
+                    const picker = document.querySelector('.hero-range-picker input') as HTMLInputElement;
+                    if (picker) picker.click();
+                  }}
+                >
+                  <Space style={{ marginBottom: 4 }}>
+                    <Calendar size={14} color="#eb2f96" />
+                    <Text strong style={{ fontSize: 12, textTransform: 'uppercase', color: '#999', letterSpacing: 1 }}>Thời gian nhận/trả phòng</Text>
+                  </Space>
+                  <RangePicker 
+                    className="hero-range-picker"
+                    variant="borderless"
+                    style={{ width: '100%', fontSize: 16, fontWeight: 500 }} 
+                    placeholder={['Nhận phòng', 'Trả phòng']} 
+                    allowClear={false}
+                  />
+                </div>
+              </Col>
+              <Col xs={24} md={6}>
+                <div 
+                  style={{ 
+                    textAlign: 'left', 
+                    padding: '8px 16px', 
+                    borderRadius: 12,
+                    transition: 'all 0.3s',
+                    cursor: 'pointer'
+                  }} 
