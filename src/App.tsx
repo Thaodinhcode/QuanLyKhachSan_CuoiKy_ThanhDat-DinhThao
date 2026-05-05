@@ -45,3 +45,34 @@ function AppContent() {
     </Router>
   );
 }
+
+export default function App() {
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#eb2f96',
+          borderRadius: 4,
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        },
+        components: {
+          Layout: {
+            headerBg: '#ffffff',
+            bodyBg: '#ffffff',
+          },
+          Table: {
+            headerBg: '#fafafa',
+            headerColor: 'rgba(0, 0, 0, 0.45)',
+            headerBorderRadius: 0,
+          },
+        },
+      }}
+    >
+      <AntApp>
+        <UserProvider>
+          <AppContent />
+        </UserProvider>
+      </AntApp>
+    </ConfigProvider>
+  );
+}
