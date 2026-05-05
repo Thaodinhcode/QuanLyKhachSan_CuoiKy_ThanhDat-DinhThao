@@ -304,4 +304,56 @@ const RoomDetail = () => {
                         </div>
                       </div>
                     ))}
-                    
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 48, marginBottom: 24 }}>
+                      <Pagination 
+                        current={currentPage} 
+                        total={room.reviews.length} 
+                        pageSize={pageSize} 
+                        onChange={(page) => {
+                          setCurrentPage(page);
+                          document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        showSizeChanger={false}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ padding: '40px 0', textAlign: 'center', color: '#94a3b8' }}>
+                    Chưa có đánh giá nào cho phòng này.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </Col>
+
+        <Col xs={24} lg={10}>
+          {currentUser?.role === 'Admin' ? (
+            <AntCard style={{ borderRadius: 16, textAlign: 'center', padding: '40px 20px', backgroundColor: '#fffbe6', border: '1px solid #ffe58f' }}>
+              <div style={{ marginBottom: 20 }}>
+                <ShieldCheck size={48} color="#faad14" style={{ margin: '0 auto' }} />
+              </div>
+              <Title level={4}>Chế độ Quản trị viên</Title>
+              <Text>Tài khoản của bạn có quyền quản trị. Vui lòng sử dụng trang Admin để quản lý phòng này thay vì đặt phòng.</Text>
+              <div style={{ marginTop: 24 }}>
+                <Button type="primary" onClick={() => navigate('/admin')}>
+                  Đi tới trang quản trị
+                </Button>
+              </div>
+            </AntCard>
+          ) : (
+            <AntCard variant="borderless" style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.08)', borderRadius: 16, position: 'sticky', top: '100px' }}>
+            <div style={{ marginBottom: '24px' }}>
+              <Text type="secondary">Giá niêm yết</Text>
+              <div>
+                <span style={{ fontSize: '32px', fontWeight: 'bold' }}>${room.price}</span>
+                <Text type="secondary"> / đêm</Text>
+              </div>
+            </div>
+
+            <Form form={form} layout="vertical" onFinish={handleBooking} initialValues={{ guests: 1, paymentMethod: 'Transfer' }}>
+              <Form.Item 
+                name="dates" 
+                label="Thời gian lưu trú" 
+                rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
+              >
