@@ -172,3 +172,44 @@ const Navbar = () => {
                 alt="User Logo"
                 style={{ border: '1px solid #f0f0f0' }}
               />
+              <div>
+                <Text strong style={{ display: 'block', fontSize: 16 }}>{user.name}</Text>
+                <Text type="secondary">{user.email || user.role}</Text>
+              </div>
+            </Space>
+            <Divider style={{ margin: '12px 0' }} />
+          </div>
+        )}
+
+        <Menu
+          mode="vertical"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          style={{ border: 'none' }}
+          onClick={() => setVisible(false)}
+        />
+
+        <div style={{ marginTop: 20, padding: '0 12px' }}>
+          {user ? (
+            <Button 
+              danger 
+              block 
+              icon={<LogOut size={16} />} 
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </Button>
+          ) : (
+            <Link to="/auth" onClick={() => setVisible(false)}>
+              <Button type="primary" block shape="round" style={{ background: '#eb2f96', border: 'none' }}>
+                Đăng nhập ngay
+              </Button>
+            </Link>
+          )}
+        </div>
+      </Drawer>
+    </Header>
+  );
+};
+
+export default Navbar;

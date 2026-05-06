@@ -357,3 +357,98 @@ const RoomDetail = () => {
                 label="Thời gian lưu trú" 
                 rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
               >
+                <RangePicker 
+                  style={{ width: '100%' }} 
+                  disabledDate={(current) => current && current < dayjs().startOf('day')}
+                  onChange={(dates) => {
+                    if (dates) {
+                      setCheckIn(dates[0]!.format('YYYY-MM-DD'));
+                      setCheckOut(dates[1]!.format('YYYY-MM-DD'));
+                    } else {
+                      setCheckIn('');
+                      setCheckOut('');
+                    }
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item 
+                name="guests" 
+                label="Số lượng khách" 
+                rules={[{ required: true }]}
+              >
+                <InputNumber min={1} max={4} style={{ width: '100%' }} />
+              </Form.Item>
+
+              <Form.Item 
+                name="idCard" 
+                label="Số CCCD/Passport" 
+                rules={[
+                  { required: true, message: 'Vui lòng nhập số định danh!' },
+                  { min: 9, message: 'Số CCCD không hợp lệ!' }
+                ]}
+              >
+                <Input prefix={<CreditCard size={14} />} placeholder="Nhập số CCCD" />
+              </Form.Item>
+
+              <Form.Item 
+                name="paymentMethod" 
+                label="Hình thức thanh toán" 
+                rules={[{ required: true }]}
+              >
+                <Select options={[
+                  { value: 'Transfer', label: 'Chuyển khoản ngân hàng' },
+                  { value: 'Cash', label: 'Thanh toán tiền mặt' }
+                ]} />
+              </Form.Item>
+
+              <Form.Item label="Ảnh CCCD (Xác minh)">
+                <Upload.Dragger 
+                  maxCount={1} 
+                  action="https://660d2bd96ddfa2943933731c.mockapi.io/api/upload" 
+                  onChange={handleUploadChange}
+                >
+                  <p className="ant-upload-drag-icon">
+                    <UploadCloud size={24} color="#1677ff" />
+                  </p>
+                  <p className="ant-upload-text">Nhấn hoặc kéo ảnh vào đây</p>
+                </Upload.Dragger>
+              </Form.Item>
+              
+              {totalPrice > 0 && (
+                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: 8, marginBottom: 24, textAlign: 'center' }}>
+                  <Text type="secondary">Ước tính tổng chi phí</Text>
+                  <Title level={3} style={{ margin: 0, color: '#1677ff' }}>${totalPrice}</Title>
+                </div>
+              )}
+
+              <Button 
+                type="primary" 
+                size="large" 
+                block 
+                htmlType="submit"
+                disabled={room.status !== 'Available'}
+                style={{ height: 50, borderRadius: 8, fontSize: 16, fontWeight: 600 }}
+              >
+                Tiến hành đặt phòng
+              </Button>
+            </Form>
+            
+            <div style={{ marginTop: '24px', textAlign: 'center' }}>
+              <Space>
+                <Wifi size={14} /> <Text type="secondary" style={{ fontSize: 12 }}>Wifi Free</Text>
+                <Divider orientation="vertical" />
+                <Coffee size={14} /> <Text type="secondary" style={{ fontSize: 12 }}>Breakfast</Text>
+                <Divider orientation="vertical" />
+                <Tv size={14} /> <Text type="secondary" style={{ fontSize: 12 }}>Smart TV</Text>
+              </Space>
+            </div>
+          </AntCard>
+          )}
+        </Col>
+      </Row>
+    </Content>
+  );
+};
+
+export default RoomDetail;

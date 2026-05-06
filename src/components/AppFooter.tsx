@@ -98,3 +98,43 @@ const AppFooter = () => {
                   </a>
                 </Space>
               </div>
+
+              <div>
+                <Text style={{ color: 'rgba(255,255,255,0.85)', display: 'block', marginBottom: 8 }}>
+                  <a>nguyenthanhdat@gmail.com</a>
+                </Text>
+                <Space size={16}>
+                  <a href="https://facebook.com/yourdatfb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/facebook.png" width={24} alt="FB" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/instagram.png" width={24} alt="IG" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/youtube.png" width={24} alt="YT" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/twitter.png" width={24} alt="TW" />
+                  </a>
+                  <a href="https://byvn.net/v6Mb" target="_blank" rel="noopener noreferrer">
+                    <img src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/github.png" width={24} alt="GH" />
+                  </a>
+                </Space>
+              </div>
+            </Space>
+          </Col>
+        </Row>
+
+        <Divider style={{ borderColor: 'rgba(255, 255, 255, 0)', margin: '40px 0 30px' }} />
+
+        <div style={{ textAlign: 'center' }}>
+          <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>
+           {new Date().getFullYear()} Stellar Hotel_ Dinh Thao & Thanh Dat
+          </Text>
+        </div>
+      </div>
+    </Footer>
+  );
+};
+
+export default AppFooter;

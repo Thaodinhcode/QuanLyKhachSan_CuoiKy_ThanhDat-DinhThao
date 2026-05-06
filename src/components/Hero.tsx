@@ -120,3 +120,52 @@ const Hero = () => {
                     transition: 'all 0.3s',
                     cursor: 'pointer'
                   }} 
+                  className="search-divider hover:bg-gray-50 flex flex-col md:border-l md:border-gray-100"
+                  onClick={() => {
+                    const input = document.querySelector('.hero-guest-input input') as HTMLInputElement;
+                    if (input) input.focus();
+                  }}
+                >
+                  <Space style={{ marginBottom: 4 }}>
+                    <Users size={14} color="#eb2f96" />
+                    <Text strong style={{ fontSize: 12, textTransform: 'uppercase', color: '#999', letterSpacing: 1 }}>Số khách</Text>
+                  </Space>
+                  <InputNumber 
+                    className="hero-guest-input"
+                    min={1} 
+                    max={10} 
+                    defaultValue={1} 
+                    variant="borderless"
+                    style={{ width: '100%', fontSize: 16, fontWeight: 500 }} 
+                  />
+                </div>
+              </Col>
+              <Col xs={24} md={8}>
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  block 
+                  icon={<Search size={20} />}
+                  onClick={() => navigate('/rooms')}
+                  style={{ 
+                    height: 64, 
+                    borderRadius: 14, 
+                    background: '#eb2f96', 
+                    borderColor: '#eb2f96', 
+                    fontWeight: 700,
+                    fontSize: 16,
+                    boxShadow: '0 8px 20px rgba(235, 47, 150, 0.3)'
+                  }}
+                >
+                  TÌM PHÒNG NGAY
+                </Button>
+              </Col>
+            </Row>
+          </AntCard>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

@@ -146,3 +146,19 @@ const Home = () => {
               ))}
             </Row>
           )}
+
+          <div style={{ textAlign: 'center', marginTop: 64 }}>
+            <Link to="/rooms">
+              <Button type="primary" size="large" style={{ background: '#eb2f96', borderColor: '#eb2f96', height: 48, padding: '0 40px', borderRadius: 8 }}>
+                XEM TẤT CẢ PHÒNG
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+};
+
+export default Home;
