@@ -200,3 +200,156 @@ const AdminDashboard = () => {
       ),
     },
   ];
+
+  const bookingColumns = [
+    { 
+      title: 'KHÁCH HÀNG', 
+      key: 'guest',
+      render: (_: any, record: Booking) => (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text strong>{record.guestName}</Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>{record.guestIdCard}</Text>
+        </div>
+      )
+    },
+    { 
+      title: 'PHÒNG', 
+      key: 'room',
+      render: (_: any, record: Booking) => {
+        const room = rooms.find(r => r.id === record.roomId);
+        return <Text>{room?.name || 'Unknown'}</Text>;
+      }
+    },
+    { 
+      title: 'THỜI GIAN', 
+      key: 'dates',
+      render: (_: any, record: Booking) => (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text>{record.checkIn} → {record.checkOut}</Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>{record.guests} khách</Text>
+        </div>
+      )
+    },
+    { 
+      title: 'TỔNG TIỀN', 
+      dataIndex: 'totalPrice', 
+      key: 'totalPrice', 
+      render: (p: number) => <Text strong>${p}</Text> 
+    },
+    {
+      title: 'TRẠNG THÁI',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string) => {
+        const config: any = { 
+          Pending: { color: 'gold', label: 'Chờ duyệt' }, 
+          Confirmed: { color: 'green', label: 'Đã xác nhận' }, 
+          Cancelled: { color: 'red', label: 'Đã hủy' }, 
+          'Checked-out': { color: 'blue', label: 'Đã trả phòng' } 
+        };
+        const item = config[status] || { color: 'default', label: status };
+        return <Tag color={item.color}>{item.label}</Tag>;
+      },
+    },
+    {
+      title: 'HÀNH ĐỘNG',
+      key: 'actions',
+      render: (_: any, record: Booking) => (
+        <Space>
+          {record.status === 'Pending' && (
+            <>
+              <Button type="primary" size="small" icon={<CheckCircle size={14} />} onClick={() => handleUpdateBookingStatus(record.id, 'Confirmed')} style={{ background: '#52c41a', borderColor: '#52c41a' }}>Duyệt</Button>
+              <Button danger size="small" icon={<XCircle size={14} />} onClick={() => handleUpdateBookingStatus(record.id, 'Cancelled')}>Hủy</Button>
+            </>
+          )}
+          {record.status === 'Confirmed' && (
+            <Button size="small" icon={<Hotel size={14} />} onClick={() => handleCheckOut(record.id)} style={{ color: '#1677ff', borderColor: '#1677ff' }}>Check-out</Button>
+          )}
+        </Space>
+      )
+    }
+  ];
+
+  const userColumns = [
+    {
+      title: 'Người dùng',
+      key: 'user',
+      render: (_: any, record: User) => (
+        <Space>
+          <Avatar icon={<Users size={14}/>} />
+          <div>
+            <Text strong>{record.name}</Text>
+            <br />
+            <Text type="secondary" style={{ fontSize: 12 }}>{record.email}</Text>
+          </div>
+        </Space>
+      )
+    },
+    {
+      title: 'Vai trò',
+      dataIndex: 'role',
+      key: 'role',
+      render: (role: string) => <Tag color={role === 'Admin' ? 'purple' : 'blue'}>{role}</Tag>
+    },
+    {
+      title: 'Điện thoại',
+      dataIndex: 'phone',
+      key: 'phone',
+      render: (p: string) => p || 'N/A'
+    },
+    {
+      title: 'Hành động',
+      key: 'actions',
+      render: (_: any, record: User) => (
+        <Button danger size="small" disabled={record.role === 'Admin'} onClick={() => handleDeleteUser(record.id)}>Xóa</Button>
+      )
+    }
+  ];
+
+  const totalRevenue = bookings.filter(b => b.status === 'Confirmed' || b.status === 'Checked-out').reduce((sum, b) => sum + b.totalPrice, 0);
+
+  const sidebarContent = (
+    <>
+      <div style={{ height: 64, padding: '16px', display: 'flex', alignItems: 'center' }}>
+        <div style={{ width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img 
+          src="https://raw.githubusercontent.com/Thaodinhcode/Thaodinhcode/refs/heads/main/logo%20qu%E1%BA%A3n%20l%C3%BD%20kh%C3%A1ch%20s%E1%BA%A1n.png" 
+          alt="Stellar Hotel" 
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'contain' 
+          }} 
+        />
+      </div>
+        {(isMobile || !collapsed) && <span style={{ color: 'white', fontWeight: 700, fontSize: 18, marginLeft: 12 }}>stellarhotel</span>}
+      </div>
+      <Menu 
+        theme="dark" 
+        selectedKeys={[activeKey]} 
+        mode="inline" 
+        onClick={({key}) => { 
+          if (key !== 'logout') {
+            setActiveKey(key);
+            if (isMobile) setCollapsed(true);
+          }
+        }}
+        items={[
+          { key: '1', icon: <LayoutDashboard size={18} />, label: 'Tổng quan' },
+          { key: '2', icon: <Bed size={18} />, label: 'Quản lý phòng' },
+          { key: '3', icon: <BookOpen size={18} />, label: 'Đơn đặt phòng' },
+          { key: '4', icon: <UserCog size={18} />, label: 'Người dùng' },
+          { type: 'divider' },
+          { 
+            key: 'logout', 
+            icon: <LogOut size={18} />, 
+            label: 'Đăng xuất', 
+            onClick: () => { 
+              localStorage.removeItem('user'); 
+              window.location.href = '/'; 
+            } 
+          },
+        ]} 
+      />
+    </>
+  );

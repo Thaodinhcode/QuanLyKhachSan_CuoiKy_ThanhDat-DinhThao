@@ -90,3 +90,53 @@ const MyBookings = () => {
         );
       }
     },
+    {
+      title: 'THỜI GIAN',
+      key: 'dates',
+      render: (_: any, record: Booking) => (
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text style={{ fontSize: 13 }}>{dayjs(record.checkIn).format('DD/MM/YYYY')} → {dayjs(record.checkOut).format('DD/MM/YYYY')}</Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>{dayjs(record.checkOut).diff(dayjs(record.checkIn), 'day')} đêm · {record.guests} khách</Text>
+        </div>
+      )
+    },
+    {
+      title: 'THANH TOÁN',
+      key: 'payment',
+      render: (_: any, record: Booking) => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            {record.paymentMethod === 'Transfer' ? <CreditCard size={14} color="#1677ff" /> : <Banknote size={14} color="#52c41a" />}
+            <Text style={{ fontSize: 13 }}>{record.paymentMethod === 'Transfer' ? 'Chuyển khoản' : 'Tiền mặt'}</Text>
+          </div>
+          <Tag color={record.paymentStatus === 'Paid' ? 'green' : 'gold'} style={{ borderRadius: 10, fontSize: 10, alignSelf: 'flex-start' }}>
+            {record.paymentStatus === 'Paid' ? 'Đã thanh toán' : 'Chờ thanh toán'}
+          </Tag>
+        </div>
+      )
+    },
+    {
+      title: 'TỔNG TIỀN',
+      dataIndex: 'totalPrice',
+      key: 'totalPrice',
+      render: (price: number) => <Text strong style={{ color: '#eb2f96', fontSize: 16 }}>${price.toLocaleString()}</Text>
+    },
+    {
+      title: 'TRẠNG THÁI',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: string) => {
+        const config: any = { 
+          Pending: { color: 'gold', label: 'Chờ duyệt' }, 
+          Confirmed: { color: 'green', label: 'Đã xác nhận' }, 
+          Cancelled: { color: 'red', label: 'Đã hủy' },
+          'Checked-out': { color: 'blue', label: 'Đã trả phòng' }
+        };
+        const item = config[status] || { color: 'default', label: status };
+        return (
+          <Tag color={item.color} style={{ fontWeight: 500, borderRadius: 4, padding: '2px 8px' }}>
+            {item.label}
+          </Tag>
+        );
+      }
+    },
