@@ -140,3 +140,122 @@ const MyBookings = () => {
         );
       }
     },
+    {
+      title: 'HÀNH ĐỘNG',
+      key: 'action',
+      align: 'center' as const,
+      render: (_: any, record: Booking) => (
+        <Space size="middle">
+          <Button 
+            type="text" 
+            icon={<Eye size={16} />} 
+            onClick={() => showDetail(record)}
+            style={{ color: '#1677ff', display: 'flex', alignItems: 'center', gap: 4 }}
+          >
+            Chi tiết
+          </Button>
+          {record.status === 'Pending' && (
+            <Button 
+              type="text" 
+              danger 
+              icon={<Trash2 size={16} />} 
+              onClick={() => handleCancelBooking(record.id)}
+              style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+            >
+              Hủy
+            </Button>
+          )}
+        </Space>
+      )
+    }
+  ];
+
+  if (!currentUser) return (
+    <div style={{ textAlign: 'center', padding: '100px' }}>
+      <Title level={4}>Vui lòng đăng nhập để xem đơn đặt phòng</Title>
+      <Button type="primary" style={{ marginTop: 16 }} onClick={() => window.location.href = '/auth'}>Đăng nhập ngay</Button>
+    </div>
+  );
+
+  return (
+    <Content style={{ maxWidth: '1200px', margin: '0 auto', minHeight: '80vh' }} className="py-8 px-4 sm:py-12 sm:px-6">
+      <div style={{ marginBottom: 40 }}>
+        <Title level={2} style={{ marginBottom: 8 }} className="text-xl sm:text-2xl md:text-3xl">Đơn đặt phòng của tôi</Title>
+        <Text type="secondary" style={{ fontSize: 16 }}>Theo dõi trạng thái và quản lý các dịch vụ lưu trú của bạn.</Text>
+      </div>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+      ) : bookings.length > 0 ? (
+        <AntCard variant="borderless" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)', borderRadius: 16 }}>
+          <Table 
+            columns={columns} 
+            dataSource={bookings} 
+            rowKey="id" 
+            pagination={{ pageSize: 5, hideOnSinglePage: true }}
+            scroll={{ x: 800 }}
+          />
+        </AntCard>
+      ) : (
+        <AntCard style={{ textAlign: 'center', padding: '64px 0', borderRadius: 16 }}>
+          <Empty 
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={
+              <Space orientation="vertical">
+                <Text type="secondary">Bạn chưa có bất kỳ giao dịch đặt phòng nào.</Text>
+                <Button type="primary" onClick={() => window.location.href = '/rooms'}>Khám phá phòng ngay</Button>
+              </Space>
+            } 
+          />
+        </AntCard>
+      )}
+
+      {/* Detail Modal */}
+      <Modal
+        title={<Title level={4} style={{ margin: 0 }}>Chi tiết đơn đặt phòng #BK-{selectedBooking?.id.slice(-4).toUpperCase()}</Title>}
+        open={isDetailModalOpen}
+        onCancel={() => setIsDetailModalOpen(false)}
+        footer={[
+          <Button key="close" onClick={() => setIsDetailModalOpen(false)}>Đóng</Button>
+        ]}
+        width={650}
+        styles={{ body: { padding: '20px 24px' } }}
+      >
+        {selectedBooking && (
+          <div>
+            <Descriptions title="Thông tin khách hàng" bordered column={1} size="small">
+              <Descriptions.Item label="Họ tên">{selectedBooking.guestName}</Descriptions.Item>
+              <Descriptions.Item label="Số CMND/CCCD">{selectedBooking.guestIdCard}</Descriptions.Item>
+              <Descriptions.Item label="Ngày đặt">{dayjs(selectedBooking.createdAt).format('HH:mm DD/MM/YYYY')}</Descriptions.Item>
+            </Descriptions>
+            
+            <Divider />
+            
+            <Descriptions title="Thông tin phòng & Dịch vụ" bordered column={1} size="small">
+              <Descriptions.Item label="Tên phòng">{roomOfSelected?.name}</Descriptions.Item>
+              <Descriptions.Item label="Loại phòng">{roomOfSelected?.type}</Descriptions.Item>
+              <Descriptions.Item label="Thời gian lưu trú">{dayjs(selectedBooking.checkIn).format('DD/MM/YYYY')} - {dayjs(selectedBooking.checkOut).format('DD/MM/YYYY')} ({dayjs(selectedBooking.checkOut).diff(dayjs(selectedBooking.checkIn), 'day')} đêm)</Descriptions.Item>
+              <Descriptions.Item label="Số lượng khách">{selectedBooking.guests} người</Descriptions.Item>
+            </Descriptions>
+
+            <Divider />
+
+            <Descriptions title="Thanh toán" bordered column={1} size="small">
+              <Descriptions.Item label="Phương thức">{selectedBooking.paymentMethod === 'Transfer' ? 'Chuyển khoản ngân hàng' : 'Thanh toán tiền mặt'}</Descriptions.Item>
+              <Descriptions.Item label="Trạng thái">
+                <Tag color={selectedBooking.paymentStatus === 'Paid' ? 'green' : 'warning'}>
+                  {selectedBooking.paymentStatus === 'Paid' ? 'Đã hoàn tất' : 'Chờ xác nhận'}
+                </Tag>
+              </Descriptions.Item>
+              <Descriptions.Item label="Tổng cộng">
+                <Title level={4} style={{ margin: 0, color: '#eb2f96' }}>${selectedBooking.totalPrice.toLocaleString()}</Title>
+              </Descriptions.Item>
+            </Descriptions>
+          </div>
+        )}
+      </Modal>
+    </Content>
+  );
+};
+
+export default MyBookings;

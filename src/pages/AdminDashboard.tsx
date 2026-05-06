@@ -353,3 +353,157 @@ const AdminDashboard = () => {
       />
     </>
   );
+
+  const renderDashboard = () => (
+    <>
+      <Row gutter={[24, 24]} style={{ marginBottom: 32 }}>
+        <Col xs={24} sm={12} lg={6}>
+          <AntCard style={{ borderRadius: 12 }}>
+            <Statistic title="Doanh thu" value={totalRevenue} prefix={<DollarSign size={20} color="#52c41a" />} precision={0} styles={{ content: { fontWeight: 700 } }} />
+          </AntCard>
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <AntCard style={{ borderRadius: 12 }}>
+            <Statistic title="Phòng" value={rooms.length} prefix={<Bed size={20} color="#1677ff" />} styles={{ content: { fontWeight: 700 } }} />
+          </AntCard>
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <AntCard style={{ borderRadius: 12 }}>
+            <Statistic title="Chờ duyệt" value={bookings.filter(b => b.status === 'Pending').length} prefix={<BookOpen size={20} color="#fa8c16" />} styles={{ content: { fontWeight: 700 } }} />
+          </AntCard>
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <AntCard style={{ borderRadius: 12 }}>
+            <Statistic title="Thành viên" value={users.length} prefix={<Users size={20} color="#722ed1" />} styles={{ content: { fontWeight: 700 } }} />
+          </AntCard>
+        </Col>
+      </Row>
+      <AntCard title="Đơn đặt phòng mới nhất" style={{ borderRadius: 12 }}>
+        <Table columns={bookingColumns} dataSource={bookings.slice(0, 8)} pagination={false} rowKey="id" scroll={{ x: 800 }} />
+      </AntCard>
+    </>
+  );
+
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      {isMobile ? (
+        <Drawer
+          title="stellarhotel Admin"
+          placement="left"
+          onClose={() => setCollapsed(true)}
+          open={!collapsed}
+          styles={{ 
+            body: { padding: 0, background: '#001529' }, 
+            header: { background: '#001529', borderBottom: '1px solid #333', color: 'white' } 
+          }}
+          size="default"
+        >
+          {sidebarContent}
+        </Drawer>
+      ) : (
+        <Sider 
+          collapsible
+          collapsed={collapsed} 
+          onCollapse={setCollapsed} 
+          breakpoint="lg"
+          collapsedWidth={80}
+          trigger={null}
+          style={{ 
+            height: '100vh', 
+            position: 'sticky', 
+            top: 0, 
+            left: 0,
+            zIndex: 1001,
+            overflow: 'hidden'
+          }}
+        >
+          {sidebarContent}
+        </Sider>
+      )}
+
+      <Layout>
+        <div style={{ height: 64, background: '#fff', padding: '0 24px', display: 'flex', alignItems: 'center', borderBottom: '1px solid #f0f2f5' }}>
+          <Button type="text" icon={<MenuIcon size={20} />} onClick={() => setCollapsed(!collapsed)} style={{ marginRight: 16 }} />
+          <Title level={4} style={{ margin: 0 }}>
+            {activeKey === '1' && 'Bảng điều khiển'}
+            {activeKey === '2' && 'Quản lý phòng'}
+            {activeKey === '3' && 'Quản lý đặt phòng'}
+            {activeKey === '4' && 'Quản lý người dùng'}
+          </Title>
+        </div>
+        
+        <Content style={{ padding: isMobile ? '16px' : '32px', background: '#f0f2f5', minHeight: 'calc(100vh - 64px)' }}>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '100px' }}><Spin size="large" /></div>
+          ) : (
+            <>
+              {activeKey === '1' && renderDashboard()}
+              {activeKey === '2' && (
+                <AntCard title="Danh sách phòng" extra={<Button type="primary" onClick={() => setIsRoomModalOpen(true)}>Thêm phòng</Button>}>
+                  <Table 
+                    columns={roomColumns} 
+                    dataSource={filteredRooms} 
+                    rowKey="id" 
+                    scroll={{ x: 600 }} 
+                    pagination={{ pageSize: 15 }}
+                  />
+                </AntCard>
+              )}
+              {activeKey === '3' && (
+                <AntCard title="Đơn đặt phòng" extra={
+                  <Select defaultValue="All" style={{ width: 150 }} onChange={setStatusFilter}>
+                      <Option value="All">Tất cả</Option>
+                      <Option value="Pending">Chờ duyệt</Option>
+                      <Option value="Confirmed">Đã duyệt</Option>
+                      <Option value="Cancelled">Đã hủy</Option>
+                      <Option value="Checked-out">Đã hoàn tất</Option>
+                  </Select>
+                }>
+                  <Table 
+                    columns={bookingColumns} 
+                    dataSource={filteredBookings} 
+                    rowKey="id" 
+                    scroll={{ x: 900 }} 
+                    pagination={{ pageSize: 15 }}
+                  />
+                </AntCard>
+              )}
+              {activeKey === '4' && (
+                <AntCard title="Danh sách thành viên">
+                  <Table 
+                    columns={userColumns} 
+                    dataSource={users} 
+                    rowKey="id" 
+                    scroll={{ x: 600 }} 
+                    pagination={{ pageSize: 15 }}
+                  />
+                </AntCard>
+              )}
+            </>
+          )}
+
+          <Modal
+            title={editingRoom ? "Chỉnh sửa phòng" : "Thêm phòng mới"}
+            open={isRoomModalOpen}
+            onCancel={() => { setIsRoomModalOpen(false); setEditingRoom(null); }}
+            onOk={() => roomForm.submit()}
+          >
+            <Form form={roomForm} layout="vertical" onFinish={handleSaveRoom}>
+              <Form.Item name="name" label="Tên phòng" rules={[{ required: true }]}><Input /></Form.Item>
+              <Form.Item name="type" label="Loại phòng" rules={[{ required: true }]}>
+                <Select options={[{value:'Single', label:'Single'},{value:'Double', label:'Double'},{value:'Suite', label:'Suite'},{value:'Deluxe', label:'Deluxe'}]} />
+              </Form.Item>
+              <Form.Item name="price" label="Giá mỗi đêm ($)" rules={[{ required: true }]}><InputNumber style={{width:'100%'}} min={0}/></Form.Item>
+              <Form.Item name="status" label="Trạng thái" rules={[{ required: true }]}>
+                <Select options={[{ value: 'Available', label: 'Trống' }, { value: 'Occupied', label: 'Hết phòng' }, { value: 'Maintenance', label: 'Bảo trì' }]} />
+              </Form.Item>
+              <Form.Item name="image" label="Link ảnh" rules={[{ required: true }]}><Input /></Form.Item>
+            </Form>
+          </Modal>
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default AdminDashboard;
